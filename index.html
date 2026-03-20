@@ -1,0 +1,2347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>democra.ai — Pitch Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F7F8FB;
+            --bg-warm: #FAFBFD;
+            --surface: #FFFFFF;
+            --surface-hover: #F8FAFC;
+            --primary: #2563EB;
+            --primary-light: #EFF6FF;
+            --primary-mid: #DBEAFE;
+            --green: #059669;
+            --green-light: #ECFDF5;
+            --amber: #D97706;
+            --amber-light: #FFFBEB;
+            --red: #DC2626;
+            --red-light: #FEF2F2;
+            --purple: #7C3AED;
+            --purple-light: #F5F3FF;
+            --text: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --border: #E2E8F0;
+            --border-light: #F1F5F9;
+            --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
+            --shadow-md: 0 4px 12px rgba(15,23,42,0.06);
+            --shadow-lg: 0 8px 24px rgba(15,23,42,0.08);
+            --font-display: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --slide-pad: clamp(32px, 5vw, 72px);
+            --content-max: 1060px;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;
+            background: var(--bg); color: var(--text);
+            font-family: var(--font-body); font-weight: 400; line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Atmosphere - light, warm, open */
+        .atmos {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                radial-gradient(ellipse 70% 50% at 10% 20%, rgba(37,99,235,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 60% at 90% 80%, rgba(5,150,105,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse 80% 40% at 50% 0%, rgba(217,119,6,0.02) 0%, transparent 40%);
+        }
+        .dot-grid {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image: radial-gradient(circle, rgba(148,163,184,0.15) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Deck - vertical scroll */
+        .deck { position: relative; z-index: 1; }
+        .slide {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: var(--slide-pad);
+        }
+        .slide-inner { width: 100%; max-width: var(--content-max); }
+
+        /* Typography */
+        .label {
+            font-family: var(--font-display); font-size: 13px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        .label::before {
+            content: ''; display: inline-block; width: 20px; height: 2px;
+            background: var(--primary); border-radius: 1px;
+        }
+        h1 { font-family: var(--font-display); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; color: var(--text); }
+        h2 {
+            font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.5vw, 42px);
+            line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 10px;
+        }
+        h3 { font-family: var(--font-display); font-weight: 700; font-size: 16px; line-height: 1.35; color: var(--text); margin-bottom: 4px; }
+        .sub { font-size: clamp(15px, 1.6vw, 18px); font-weight: 400; color: var(--text-secondary); line-height: 1.6; }
+        .small { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+        .xs { font-size: 12px; color: var(--text-muted); }
+        .primary { color: var(--primary); }
+        .green { color: var(--green); }
+        .amber { color: var(--amber); }
+        .red { color: var(--red); }
+        strong { font-weight: 700; }
+
+        /* Cards */
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+        .card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+        .icon-box {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 14px; flex-shrink: 0;
+        }
+        .icon-box svg { width: 22px; height: 22px; }
+        .icon-box.primary-bg { background: var(--primary-light); }
+        .icon-box.green-bg { background: var(--green-light); }
+        .icon-box.amber-bg { background: var(--amber-light); }
+        .icon-box.red-bg { background: var(--red-light); }
+        .icon-box.purple-bg { background: var(--purple-light); }
+
+        .badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px; border-radius: 100px;
+            font-family: var(--font-display); font-size: 12px; font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .badge.primary-badge { background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary-mid); }
+
+        /* Navigation */
+        .nav {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px var(--slide-pad);
+            background: linear-gradient(to top, rgba(247,248,251,0.97), rgba(247,248,251,0.8) 70%, transparent);
+            backdrop-filter: blur(8px);
+        }
+        .nav-dots { display: flex; gap: 6px; }
+        .nav-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--border); border: none; cursor: pointer;
+            transition: all 0.3s ease; padding: 0;
+        }
+        .nav-dot.active { background: var(--primary); width: 28px; border-radius: 4px; }
+        .nav-counter {
+            font-family: var(--font-display); font-size: 13px; font-weight: 600;
+            color: var(--text-muted); letter-spacing: 1px;
+        }
+        .nav-counter .cur { color: var(--text); }
+        .nav-arrows { display: flex; gap: 6px; }
+        .nav-btn {
+            width: 36px; height: 36px; border-radius: 10px;
+            border: 1px solid var(--border); background: var(--surface);
+            color: var(--text-secondary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; box-shadow: var(--shadow-sm);
+        }
+        .nav-btn:hover { border-color: var(--primary); color: var(--primary); box-shadow: var(--shadow-md); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; box-shadow: none; }
+        .nav-btn svg { width: 16px; height: 16px; }
+
+        /* Progress */
+        .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--border-light); z-index: 200; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), #3B82F6); transition: width 0.5s var(--ease); border-radius: 0 2px 2px 0; }
+
+        /* Top Bar */
+        .top-bar {
+            position: fixed; top: 3px; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 4px var(--slide-pad);
+            background: linear-gradient(to bottom, rgba(247,248,251,0.95), rgba(247,248,251,0.7) 80%, transparent);
+            backdrop-filter: blur(8px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .top-bar.hidden { opacity: 0; pointer-events: none; transform: translateY(-100%); }
+        .top-bar-brand {
+            font-family: var(--font-display); font-size: 17px; font-weight: 800;
+            color: var(--primary); letter-spacing: -0.02em;
+        }
+        .top-bar-brand .dot { color: var(--green); }
+        .top-bar-label {
+            font-family: var(--font-display); font-size: 12px; font-weight: 700;
+            color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px;
+        }
+        .top-bar-spacer { flex: 1; min-width: 80px; }
+        .top-bar-left { display: flex; align-items: center; }
+        .top-bar-right { display: flex; justify-content: flex-end; align-items: center; }
+
+        /* Bottom Navigation */
+        .nav {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 6px var(--slide-pad);
+            background: linear-gradient(to top, rgba(247,248,251,0.97), rgba(247,248,251,0.8) 70%, transparent);
+            backdrop-filter: blur(8px);
+            transition: opacity 0.3s ease;
+        }
+        .nav.hidden { opacity: 0; pointer-events: none; }
+        .nav-dots { display: flex; gap: 5px; }
+        .nav-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--border); border: none; cursor: pointer;
+            transition: all 0.3s ease; padding: 0;
+        }
+        .nav-dot.active { background: var(--primary); width: 22px; border-radius: 3px; }
+        .nav-counter {
+            font-family: var(--font-display); font-size: 12px; font-weight: 600;
+            color: var(--text-muted); letter-spacing: 1px;
+        }
+        .nav-counter .cur { color: var(--text); }
+        .nav-arrows { display: flex; gap: 5px; }
+        .nav-btn {
+            width: 30px; height: 30px; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--surface);
+            color: var(--text-secondary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; box-shadow: var(--shadow-sm);
+        }
+        .nav-btn:hover { border-color: var(--primary); color: var(--primary); box-shadow: var(--shadow-md); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; box-shadow: none; }
+        .nav-btn svg { width: 14px; height: 14px; }
+
+        /* ========== COVER ========== */
+        .cover { text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .cover-title {
+            font-size: clamp(52px, 9vw, 96px);
+            color: var(--primary); letter-spacing: -0.04em;
+        }
+        .cover-dot { color: var(--green); }
+        .cover-tag {
+            font-family: var(--font-display); font-size: clamp(18px, 2.5vw, 26px);
+            font-weight: 500; color: var(--text-secondary); margin-top: 8px;
+        }
+        .cover-sub {
+            font-size: clamp(14px, 1.4vw, 16px); color: var(--text-muted);
+            margin-top: 20px; max-width: 520px; line-height: 1.7;
+        }
+        .cover-founders { margin-top: 48px; display: flex; gap: 24px; align-items: center; }
+        .founder-chip {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 100px; padding: 6px 18px 6px 6px;
+            box-shadow: var(--shadow-sm);
+        }
+        .founder-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display); font-size: 12px; font-weight: 800;
+        }
+        .founder-avatar.ceo { background: var(--primary-light); color: var(--primary); }
+        .founder-avatar.cto { background: var(--green-light); color: var(--green); }
+        .founder-name { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text); }
+        .founder-role { font-size: 12px; color: var(--text-muted); margin-left: 2px; }
+        .cover-meta {
+            margin-top: 40px; font-size: 13px; color: var(--text-muted);
+            font-family: var(--font-body); font-weight: 500;
+        }
+
+        /* ========== PROBLEM ========== */
+        .problem-hero-stat {
+            display: flex; align-items: baseline; gap: 16px; margin-top: 20px; margin-bottom: 8px;
+        }
+        .problem-hero-num {
+            font-family: var(--font-display); font-size: clamp(56px, 7vw, 88px); font-weight: 900;
+            letter-spacing: -0.04em; line-height: 1; color: var(--red);
+        }
+        .problem-hero-context {
+            font-size: clamp(15px, 1.5vw, 18px); color: var(--text-secondary); line-height: 1.5; max-width: 400px;
+        }
+
+        /* Pipeline Flow */
+        .problem-pipeline {
+            display: flex; align-items: flex-start; gap: 0; margin-top: 32px;
+            position: relative; padding: 0 8px;
+        }
+        .pipeline-track {
+            position: absolute; top: 32px; left: 56px; right: 56px; height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--amber), var(--red));
+            border-radius: 2px; z-index: 0;
+        }
+        .pipeline-stage {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            text-align: center; position: relative; z-index: 1;
+        }
+        .pipeline-icon-wrap {
+            width: 64px; height: 64px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; margin-bottom: 14px;
+            border: 3px solid var(--surface); box-shadow: var(--shadow-md);
+            transition: transform 0.3s var(--ease), box-shadow 0.3s ease;
+        }
+        .pipeline-icon-wrap:hover { transform: scale(1.1); box-shadow: var(--shadow-lg); }
+        .pipeline-icon-wrap svg { width: 26px; height: 26px; }
+        .pipeline-stage-num {
+            font-family: var(--font-display); font-size: 11px; font-weight: 700;
+            color: var(--text-muted); letter-spacing: 1px; margin-bottom: 6px;
+        }
+        .pipeline-stage-title {
+            font-family: var(--font-display); font-size: 14px; font-weight: 700;
+            color: var(--text); line-height: 1.3; margin-bottom: 4px; max-width: 150px;
+        }
+        .pipeline-stage-detail {
+            font-size: 12px; color: var(--text-muted); line-height: 1.4; max-width: 150px;
+        }
+        .pipeline-stage-detail strong { color: var(--text-secondary); }
+
+        /* Chevron arrows between stages */
+        .pipeline-chevron {
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; width: 28px; margin-top: 20px; color: var(--text-muted);
+        }
+        .pipeline-chevron svg { width: 20px; height: 20px; opacity: 0.4; }
+
+        /* Impact bar */
+        .problem-impact-bar {
+            display: flex; align-items: stretch; gap: 0; margin-top: 28px;
+            border-radius: 14px; overflow: hidden; border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+        .impact-segment {
+            flex: 1; padding: 18px 20px; display: flex; flex-direction: column;
+            justify-content: center; background: var(--surface);
+            border-right: 1px solid var(--border);
+        }
+        .impact-segment:last-child { border-right: none; }
+        .impact-num {
+            font-family: var(--font-display); font-size: 28px; font-weight: 900;
+            letter-spacing: -0.02em; line-height: 1; margin-bottom: 4px;
+        }
+        .impact-label { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+        .impact-label strong { color: var(--text); }
+        .impact-segment.highlight {
+            background: var(--red-light); border-color: #FECACA;
+        }
+
+        /* ========== SOLUTION ========== */
+        .solution-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 24px; }
+        .layer-stack { display: flex; flex-direction: column; gap: 0; }
+        .layer {
+            padding: 18px 24px; border: 1px solid var(--border);
+            display: flex; align-items: center; gap: 16px; background: var(--surface);
+        }
+        .layer:first-child { border-radius: 14px 14px 0 0; }
+        .layer:last-child { border-radius: 0 0 14px 14px; }
+        .layer .layer-label {
+            font-family: var(--font-display); font-size: 13px; font-weight: 800;
+            letter-spacing: 0.5px; text-transform: uppercase; min-width: 140px;
+        }
+        .layer .layer-desc { font-size: 14px; color: var(--text-secondary); }
+        .layer-skill { background: var(--primary-light); border-color: var(--primary-mid) !important; }
+        .layer-skill .layer-label { color: var(--primary); }
+        .layer-agent { background: var(--green-light); border-color: #A7F3D0 !important; }
+        .layer-agent .layer-label { color: var(--green); }
+        .layer-model { background: var(--purple-light); border-color: #DDD6FE !important; }
+        .layer-model .layer-label { color: var(--purple); }
+        .key-point {
+            font-size: 15px; color: var(--text-secondary); line-height: 1.65;
+            padding-left: 16px; border-left: 3px solid var(--primary); margin-top: 20px;
+        }
+
+        /* ========== PRODUCT ========== */
+        .flow-steps { display: flex; align-items: flex-start; margin-top: 24px; }
+        .flow-step { flex: 1; text-align: center; position: relative; padding: 0 6px; }
+        .flow-num {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display); font-size: 14px; font-weight: 800;
+            margin: 0 auto 10px; position: relative; z-index: 2;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+        }
+        .flow-step:not(:last-child)::after {
+            content: ''; position: absolute; top: 19px;
+            left: calc(50% + 23px); right: calc(-50% + 23px);
+            height: 2px; background: var(--primary-mid); z-index: 1;
+        }
+        .flow-title { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+        .flow-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+        /* Architecture Diagram — creative flow layout */
+        .arch-diagram { margin-top: 24px; position: relative; max-width: 780px; margin-left: auto; margin-right: auto; }
+        .arch-flow {
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr 56px;
+            grid-template-rows: auto 36px auto;
+            gap: 0 20px;
+            align-items: center;
+            position: relative;
+            padding: 16px 0;
+        }
+        /* Small circular endpoint nodes (User + Agent) */
+        .arch-endpoint {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            position: relative; z-index: 2;
+        }
+        .arch-endpoint-circle {
+            width: 48px; height: 48px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid; box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .arch-endpoint-circle:hover { transform: scale(1.08); box-shadow: var(--shadow-lg); }
+        .arch-endpoint-circle svg { width: 20px; height: 20px; }
+        .arch-endpoint-label {
+            font-family: var(--font-display); font-size: 11px; font-weight: 700;
+            text-align: center; line-height: 1.2;
+        }
+        /* Main product component cards */
+        .arch-card {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 14px 16px; border-radius: 14px;
+            background: var(--surface); border: 1.5px solid var(--border);
+            box-shadow: var(--shadow-sm); position: relative; z-index: 2;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .arch-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .arch-card .icon-box { margin-bottom: 0; width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; }
+        .arch-card .icon-box svg { width: 16px; height: 16px; }
+        .arch-card-body h3 { font-size: 12.5px; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; }
+        .arch-card-body .small { margin-top: 3px; font-size: 10.5px; line-height: 1.35; color: var(--text-muted); }
+        /* Grid placements */
+        .arch-user { grid-column: 1; grid-row: 1; justify-self: center; }
+        .arch-studio { grid-column: 2; grid-row: 1; }
+        .arch-market { grid-column: 3; grid-row: 1; }
+        .arch-agent { grid-column: 4; grid-row: 1; justify-self: center; }
+        .arch-tee { grid-column: 2; grid-row: 3; }
+        .arch-chain { grid-column: 3; grid-row: 3; }
+        /* Connection lines row (middle row) */
+        .arch-connectors {
+            grid-column: 1 / -1; grid-row: 2;
+            position: relative; height: 32px;
+        }
+        /* CSS arrow connectors */
+        .arch-conn {
+            position: absolute; height: 2px; top: 50%;
+            display: flex; align-items: center;
+        }
+        .arch-conn::after {
+            content: ''; position: absolute; right: -1px;
+            border: 4px solid transparent; border-left: 6px solid;
+        }
+        .arch-conn-label {
+            position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+            font-family: var(--font-display); font-size: 8px; font-weight: 600;
+            color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase;
+            white-space: nowrap; background: var(--bg); padding: 0 4px;
+        }
+        /* Vertical connector dots between rows */
+        .arch-vconn {
+            position: absolute; width: 2px; z-index: 1;
+            left: 50%; transform: translateX(-50%);
+        }
+        .arch-vconn::after {
+            content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
+            border: 4px solid transparent; border-top: 6px solid;
+        }
+        /* Web3 foundation bar */
+        .web3-foundation {
+            display: flex; flex-direction: column; gap: 10px; margin-top: 16px;
+            padding: 14px 20px; border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, #F5F3FF 50%, var(--green-light) 100%);
+            border: 1px solid var(--primary-mid);
+            position: relative; z-index: 2;
+        }
+        .web3-foundation-label {
+            font-family: var(--font-display); font-size: 10px; font-weight: 700;
+            color: var(--primary); letter-spacing: 2px; text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .web3-foundation-items { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .web3-tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 12px; border-radius: 8px;
+            background: var(--surface); border: 1px solid var(--border);
+            font-family: var(--font-display); font-size: 11px; font-weight: 600; color: var(--text-secondary);
+            box-shadow: var(--shadow-sm);
+        }
+        .web3-tag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+        /* ========== TRACTION ========== */
+        .traction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+        .traction-stat {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+            padding: 22px 20px; text-align: center; box-shadow: var(--shadow-sm);
+            position: relative; overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .traction-stat:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .traction-stat::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        }
+        .traction-stat:nth-child(1)::before { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
+        .traction-stat:nth-child(2)::before { background: linear-gradient(90deg, #059669, #34D399); }
+        .traction-stat:nth-child(3)::before { background: linear-gradient(90deg, #D97706, #FBBF24); }
+        .traction-stat::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60%;
+            pointer-events: none; opacity: 0.35;
+        }
+        .traction-stat:nth-child(1)::after { background: linear-gradient(180deg, #EFF6FF, transparent); }
+        .traction-stat:nth-child(2)::after { background: linear-gradient(180deg, #ECFDF5, transparent); }
+        .traction-stat:nth-child(3)::after { background: linear-gradient(180deg, #FFFBEB, transparent); }
+        .traction-stat-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 10px; position: relative; z-index: 1;
+        }
+        .traction-stat-icon svg { width: 18px; height: 18px; }
+        .traction-num {
+            font-family: var(--font-display); font-size: 36px; font-weight: 900;
+            letter-spacing: -0.03em; line-height: 1; position: relative; z-index: 1;
+        }
+        .traction-label { font-size: 13px; color: var(--text-secondary); margin-top: 8px; line-height: 1.4; position: relative; z-index: 1; }
+        /* Timeline with vertical connector line */
+        .timeline { margin-top: 24px; position: relative; padding-left: 20px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 4px; top: 10px; bottom: 10px;
+            width: 2px; background: linear-gradient(180deg, var(--green), var(--primary) 35%, var(--border) 55%, var(--border));
+            border-radius: 1px;
+        }
+        .timeline-item {
+            display: flex; gap: 16px; padding: 14px 0;
+            position: relative;
+        }
+        .timeline-item:last-child { border-bottom: none; }
+        .timeline-dot-wrap {
+            position: absolute; left: -20px; top: 18px;
+            display: flex; align-items: center; justify-content: center;
+            width: 10px;
+        }
+        .timeline-dot {
+            width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+            position: relative; z-index: 1;
+        }
+        .timeline-dot.done { background: var(--green); box-shadow: 0 0 0 3px #ECFDF5; }
+        .timeline-dot.current { background: var(--primary); box-shadow: 0 0 0 4px var(--primary-light), 0 0 8px rgba(37,99,235,0.3); }
+        .timeline-dot.upcoming { background: var(--border); box-shadow: 0 0 0 3px var(--bg); }
+        .timeline-content { flex: 1; }
+        .timeline-date {
+            font-family: var(--font-display); font-size: 12px; font-weight: 700;
+            color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .timeline-title {
+            font-family: var(--font-display); font-size: 15px; font-weight: 700;
+            color: var(--text); margin-top: 2px;
+        }
+        .timeline-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+        .traction-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 24px; }
+        /* Why Now — signal items */
+        .whynow-list { display: flex; flex-direction: column; gap: 0; }
+        .whynow-item {
+            display: flex; gap: 14px; padding: 16px 0;
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+        }
+        .whynow-item:last-child { border-bottom: none; }
+        .whynow-accent {
+            width: 3px; border-radius: 2px; flex-shrink: 0;
+            align-self: stretch;
+        }
+        .whynow-icon {
+            width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .whynow-icon svg { width: 20px; height: 20px; }
+        .whynow-icon::after {
+            content: ''; position: absolute; inset: -3px; border-radius: 14px;
+            opacity: 0.15; z-index: -1;
+        }
+        .whynow-item:nth-child(1) .whynow-icon::after { background: var(--primary); }
+        .whynow-item:nth-child(2) .whynow-icon::after { background: var(--amber); }
+        .whynow-item:nth-child(3) .whynow-icon::after { background: var(--red); }
+        .whynow-body { flex: 1; min-width: 0; }
+        .whynow-num {
+            font-family: var(--font-display); font-size: 10px; font-weight: 800;
+            letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 2px;
+        }
+        .whynow-title {
+            font-family: var(--font-display); font-size: 14px; font-weight: 700;
+            color: var(--text); line-height: 1.3; margin-bottom: 4px;
+        }
+        .whynow-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+        /* Viral highlight card */
+        .viral-card {
+            background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+            border: 1px solid #BFDBFE;
+            border-radius: 14px; padding: 16px; position: relative; overflow: hidden;
+        }
+        .viral-card::before {
+            content: ''; position: absolute; top: -30px; right: -30px;
+            width: 80px; height: 80px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%);
+        }
+        .viral-card-inner { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .viral-icon {
+            width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary), var(--green));
+            color: white; display: flex; align-items: center; justify-content: center;
+        }
+        .viral-icon svg { width: 18px; height: 18px; }
+        .viral-name {
+            font-family: var(--font-display); font-size: 14px; font-weight: 700;
+            color: var(--text); line-height: 1.3;
+        }
+        .viral-desc { font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; margin-top: 2px; }
+        .viral-stats {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+            border-top: 1px solid rgba(37,99,235,0.1); padding-top: 12px;
+        }
+        .viral-stat { text-align: center; }
+        .viral-stat-val {
+            font-family: var(--font-display); font-size: 20px; font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--green));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .viral-stat-label { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+        /* ========== FINANCIALS ========== */
+        .fin-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 24px; }
+        .fin-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .fin-table th {
+            font-family: var(--font-display); font-size: 12px; font-weight: 700;
+            color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border);
+        }
+        .fin-table td {
+            font-size: 14px; padding: 10px 14px;
+            border-bottom: 1px solid var(--border-light); color: var(--text-secondary);
+        }
+        .fin-table td:first-child { font-weight: 600; color: var(--text); }
+        .fin-table .highlight td { background: var(--primary-light); font-weight: 600; }
+        .fin-metric-row {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 20px;
+        }
+        .fin-metric {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+            padding: 18px; box-shadow: var(--shadow-sm);
+        }
+        .fin-metric-num {
+            font-family: var(--font-display); font-size: 28px; font-weight: 900;
+            letter-spacing: -0.02em; line-height: 1;
+        }
+        .fin-metric-label { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+
+        /* ========== MARKET ========== */
+        .market-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 24px; }
+        .market-drivers { display: flex; flex-direction: column; gap: 18px; }
+        /* Rich market data cards with gauge visualization */
+        .mkt-card {
+            background: var(--surface); border-radius: 16px; padding: 20px 22px;
+            border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+            display: flex; align-items: center; gap: 18px;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .mkt-card::before {
+            content: ''; position: absolute; inset: 0; opacity: 0.45; pointer-events: none;
+            border-radius: inherit;
+        }
+        .mkt-card:nth-child(1)::before { background: linear-gradient(135deg, #EFF6FF 0%, transparent 60%); }
+        .mkt-card:nth-child(2)::before { background: linear-gradient(135deg, #ECFDF5 0%, transparent 60%); }
+        .mkt-card:nth-child(3)::before { background: linear-gradient(135deg, #FFFBEB 0%, transparent 60%); }
+        .mkt-card:nth-child(1) { border-color: #BFDBFE; }
+        .mkt-card:nth-child(2) { border-color: #A7F3D0; }
+        .mkt-card:nth-child(3) { border-color: #FDE68A; }
+        .mkt-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .mkt-gauge { flex-shrink: 0; position: relative; width: 72px; height: 72px; }
+        .mkt-gauge svg { width: 72px; height: 72px; transform: rotate(-90deg); }
+        .mkt-gauge-track { fill: none; stroke-width: 5; }
+        .mkt-gauge-fill { fill: none; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+        .mkt-gauge-label {
+            position: absolute; inset: 0; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .mkt-gauge-num {
+            font-family: var(--font-display); font-size: 15px; font-weight: 900;
+            line-height: 1; letter-spacing: -0.02em;
+        }
+        .mkt-gauge-unit { font-size: 9px; font-weight: 600; color: var(--text-muted); margin-top: 1px; }
+        .mkt-body { flex: 1; min-width: 0; }
+        .mkt-title {
+            font-family: var(--font-display); font-size: 14px; font-weight: 700;
+            color: var(--text); letter-spacing: -0.01em; margin-bottom: 6px;
+        }
+        .mkt-bar-wrap {
+            height: 6px; border-radius: 3px; background: var(--bg); overflow: hidden;
+            margin-bottom: 6px;
+        }
+        .mkt-bar-fill {
+            height: 100%; border-radius: 3px; transition: width 1.2s ease;
+            width: 0;
+        }
+        .mkt-bar-labels {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .mkt-bar-from { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+        .mkt-bar-to { font-size: 12px; font-weight: 700; }
+        .mkt-src {
+            font-size: 10px; color: var(--text-muted); margin-top: 6px;
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 8px; background: var(--bg); border-radius: 4px;
+            font-weight: 500; letter-spacing: 0.3px;
+        }
+        .market-signal {
+            display: flex; align-items: center; gap: 12px; margin-top: 22px;
+            padding: 16px 22px; border-radius: 14px;
+            background: var(--primary-light); border: 1px solid var(--primary-mid);
+        }
+        .market-signal-text { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+
+        /* ========== REVENUE ========== */
+        .revenue-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .revenue-item:last-child { border-bottom: none; }
+        .revenue-pct {
+            font-family: var(--font-display); font-size: 20px; font-weight: 800;
+            min-width: 52px;
+        }
+        .revenue-name { font-size: 14px; font-weight: 600; color: var(--text); }
+        .revenue-desc { font-size: 12px; color: var(--text-muted); }
+        /* ========== COMPETITION ========== */
+        .comp-layout { display: grid; grid-template-columns: 1.45fr 1fr; gap: 20px; align-items: start; margin-top: 20px; }
+        .comp-map-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+            box-shadow: var(--shadow-sm); padding: 14px;
+        }
+        .comp-map-head {
+            display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px;
+        }
+        .comp-map-title {
+            font-family: var(--font-display); font-size: 13px; font-weight: 700;
+            color: var(--text-secondary); letter-spacing: 0.2px;
+        }
+        .comp-legend {
+            display: grid; grid-template-columns: 1fr; gap: 6px;
+            margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-light);
+        }
+        .comp-legend-item {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 11px; color: var(--text-muted); line-height: 1.35;
+        }
+        .comp-legend-line {
+            width: 24px; height: 0; border-top: 2px solid var(--border); flex-shrink: 0;
+        }
+        .comp-legend-line.direct { border-top-color: #DC2626; }
+        .comp-legend-line.substitute { border-top-color: #D97706; border-top-style: dashed; }
+        .comp-legend-line.coop { border-top-color: #2563EB; border-top-style: dotted; }
+        .comp-side {
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .comp-section-title {
+            font-family: var(--font-display); font-size: 12px; font-weight: 800;
+            color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;
+            margin: 2px 0 0;
+        }
+        .comp-rel-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; box-shadow: var(--shadow-sm); padding: 10px 12px;
+        }
+        .comp-rel-title {
+            font-family: var(--font-display); font-size: 13px; font-weight: 700;
+            color: var(--text); line-height: 1.3; margin-bottom: 4px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .comp-rel-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .comp-rel-card.direct .comp-rel-dot { background: #DC2626; }
+        .comp-rel-card.substitute .comp-rel-dot { background: #D97706; }
+        .comp-rel-card.coop .comp-rel-dot { background: #2563EB; }
+        .comp-rel-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.45; }
+        .comp-rel-tags {
+            margin-top: 7px; display: flex; flex-wrap: wrap; gap: 6px;
+        }
+        .comp-rel-tag {
+            padding: 3px 8px; border-radius: 999px; font-size: 10px; font-weight: 600;
+            border: 1px solid var(--border); color: var(--text-secondary); background: var(--bg-warm);
+        }
+        .comp-win-card {
+            margin-top: 4px; padding: 10px 12px; border-radius: 12px;
+            border: 1px solid var(--primary-mid);
+            background: linear-gradient(135deg, var(--primary-light), var(--green-light));
+            box-shadow: var(--shadow-sm);
+        }
+        .comp-win-list {
+            display: grid; grid-template-columns: 1fr; gap: 5px;
+            margin-top: 6px;
+        }
+        .comp-win-item {
+            font-size: 12px; color: var(--text-secondary); line-height: 1.4;
+            display: flex; align-items: flex-start; gap: 8px;
+        }
+        .comp-win-item::before {
+            content: ''; width: 6px; height: 6px; margin-top: 5px;
+            border-radius: 50%; background: var(--primary); flex-shrink: 0;
+        }
+
+        /* ========== TEAM ========== */
+        .team-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; }
+        .team-avatar-lg {
+            width: 56px; height: 56px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display); font-size: 20px; font-weight: 800;
+            margin-bottom: 14px;
+        }
+        .team-avatar-lg.ceo { background: var(--primary-light); color: var(--primary); }
+        .team-avatar-lg.cpo { background: #F3E8FF; color: #7C3AED; }
+        .team-avatar-lg.cto { background: var(--green-light); color: var(--green); }
+        .team-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; max-width: 860px; }
+        .team-name { font-family: var(--font-display); font-size: 18px; font-weight: 800; color: var(--text); }
+        .team-role { font-size: 13px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
+        .team-bio { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+        .team-collab {
+            margin-top: 20px; padding: 18px; text-align: center;
+            background: var(--primary-light); border-radius: 14px;
+            border: 1px solid var(--primary-mid);
+        }
+        .hires-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .hire-chip {
+            padding: 10px; background: var(--surface); border-radius: 10px;
+            border: 1px solid var(--border); text-align: center;
+            font-family: var(--font-display); font-size: 13px; color: var(--text-secondary); font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ========== ASK ========== */
+        .ask-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 24px; }
+        .fund-bar {
+            display: flex; align-items: center; gap: 12px; padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .fund-bar:last-child { border-bottom: none; }
+        .fund-bar-fill {
+            height: 8px; border-radius: 4px; flex-shrink: 0;
+        }
+        .fund-label { font-size: 13px; color: var(--text-secondary); font-weight: 500; min-width: 110px; }
+        .fund-pct { font-family: var(--font-display); font-size: 14px; font-weight: 800; min-width: 36px; }
+        .milestone {
+            display: flex; gap: 16px; padding: 14px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .milestone:last-child { border-bottom: none; }
+        .milestone-time {
+            font-family: var(--font-display); font-size: 13px; font-weight: 700;
+            color: var(--primary); min-width: 80px; padding-top: 2px;
+        }
+        .milestone-text { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+        .cta-section {
+            margin-top: 28px; text-align: center; padding: 28px;
+            background: linear-gradient(135deg, var(--primary-light), var(--green-light));
+            border: 1px solid var(--primary-mid); border-radius: 16px;
+        }
+        .cta-title {
+            font-family: var(--font-display); font-size: 20px; font-weight: 800;
+            color: var(--text); margin-bottom: 8px;
+        }
+        .contact-links { display: flex; justify-content: center; gap: 20px; margin-top: 14px; flex-wrap: wrap; }
+        .contact-link {
+            font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 500;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .contact-link:hover { text-decoration: underline; }
+
+        /* Language Toggle (in top bar) – single click toggles A/中 */
+        .top-bar-lang {
+            display: flex; align-items: center;
+            background: var(--border-light); border: 1px solid var(--border);
+            border-radius: 100px; padding: 2px;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+        }
+        .top-bar-lang .lang-toggle-btn {
+            min-width: 22px; height: 20px; padding: 0 6px; border: none; border-radius: 100px;
+            background: var(--surface); color: var(--primary);
+            cursor: pointer; transition: all 0.2s ease;
+            font-family: var(--font-display); font-size: 11px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .top-bar-lang .lang-toggle-btn:hover { color: var(--primary); opacity: 0.9; }
+
+        /* Print */
+        @media print {
+            .atmos, .dot-grid, .progress, .nav, .top-bar { display: none !important; }
+            .deck { display: block; position: static; }
+            .slide {
+                position: static !important; opacity: 1 !important; transform: none !important;
+                visibility: visible !important; pointer-events: auto !important;
+                page-break-after: always; height: auto; min-height: 100vh; padding: 48px;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .solution-layout, .market-layout,
+            .comp-layout, .team-layout, .ask-layout, .traction-layout,
+            .traction-grid, .fin-layout, .fin-metric-row {
+                grid-template-columns: 1fr;
+            }
+            .problem-pipeline { flex-direction: column; align-items: center; gap: 4px; }
+            .pipeline-track { display: none; }
+            .pipeline-chevron { transform: rotate(90deg); margin: 0; width: auto; }
+            .problem-impact-bar { flex-direction: column; }
+            .impact-segment { border-right: none; border-bottom: 1px solid var(--border); }
+            .impact-segment:last-child { border-bottom: none; }
+            .problem-hero-stat { flex-direction: column; gap: 8px; }
+            .arch-flow {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 12px 0;
+            }
+            .arch-user, .arch-studio, .arch-market, .arch-agent,
+            .arch-tee, .arch-chain {
+                grid-column: 1; grid-row: auto;
+            }
+            .arch-endpoint { flex-direction: row; gap: 10px; }
+            #archArrows { display: none; }
+            .mkt-card { flex-direction: column; text-align: center; }
+            .mkt-body { text-align: left; }
+            .web3-foundation { flex-direction: column; gap: 10px; }
+            .web3-foundation-items { flex-direction: column; }
+            .flow-steps { flex-direction: column; gap: 12px; }
+            .flow-step:not(:last-child)::after { display: none; }
+            .cover-founders { flex-direction: column; gap: 12px; }
+            .hires-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="atmos"></div>
+    <div class="dot-grid"></div>
+
+    <div class="deck" id="deck">
+
+        <!-- SLIDE 1: INTRODUCTION -->
+        <div class="slide" data-slide="0">
+            <div class="slide-inner cover">
+                <div class="badge primary-badge" data-i18n="badge">Pre-Seed &middot; 2026</div>
+                <h1 class="cover-title" style="margin-top: 28px;">democra<span class="cover-dot">.ai</span></h1>
+                <div class="cover-tag" data-i18n="cover_tag">Your Skills. Your Sovereignty.</div>
+                <p class="cover-sub" data-i18n="cover_sub">Your expertise as protected digital assets — usable but never exposed, owned by you.</p>
+                <div class="cover-founders">
+                    <div class="founder-chip">
+                        <div class="founder-avatar ceo">TS</div>
+                        <span class="founder-name">Tao Shen</span>
+                        <span class="founder-role" data-i18n="role_ceo">CEO</span>
+                    </div>
+                </div>
+                <div class="cover-meta">tao.shen@democra.ai &middot; @tao_shen</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: PROBLEM -->
+        <div class="slide" data-slide="1">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_problem">The Problem</div>
+                <h2 data-i18n="problem_title">Expert Skills Are Being Harvested at Scale</h2>
+
+                <!-- Hero Stat -->
+                <div class="problem-hero-stat">
+                    <div class="problem-hero-num">$0</div>
+                    <div class="problem-hero-context" data-i18n="problem_hero">returned to 3M+ creators whose expertise powers today's AI agent platforms.</div>
+                </div>
+
+                <!-- Visual Pipeline: The Extraction Flow -->
+                <div class="problem-pipeline">
+                    <div class="pipeline-track"></div>
+
+                    <!-- Stage 1: Expert Creates -->
+                    <div class="pipeline-stage">
+                        <div class="pipeline-icon-wrap" style="background: var(--primary-light);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
+                        <div class="pipeline-stage-num" data-i18n="pipeline_step1_num">01</div>
+                        <div class="pipeline-stage-title" data-i18n="pipeline_step1_title">Expert Creates Skill</div>
+                        <div class="pipeline-stage-detail" data-i18n="pipeline_step1_detail">Workflows, prompts, decision logic</div>
+                    </div>
+
+                    <div class="pipeline-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </div>
+
+                    <!-- Stage 2: Published Free -->
+                    <div class="pipeline-stage">
+                        <div class="pipeline-icon-wrap" style="background: var(--amber-light);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                        </div>
+                        <div class="pipeline-stage-num" data-i18n="pipeline_step2_num">02</div>
+                        <div class="pipeline-stage-title" data-i18n="pipeline_step2_title">Published Free on Platforms</div>
+                        <div class="pipeline-stage-detail" data-i18n="pipeline_step2_detail"><strong>3M+</strong> GPTs &amp; Skills, zero compensation</div>
+                    </div>
+
+                    <div class="pipeline-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </div>
+
+                    <!-- Stage 3: AI Absorbs Expertise -->
+                    <div class="pipeline-stage">
+                        <div class="pipeline-icon-wrap" style="background: #FEF3C7;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        </div>
+                        <div class="pipeline-stage-num" data-i18n="pipeline_step3_num">03</div>
+                        <div class="pipeline-stage-title" data-i18n="pipeline_step3_title">AI Absorbs Your Expertise</div>
+                        <div class="pipeline-stage-detail" data-i18n="pipeline_step3_detail">Skills are the new training data</div>
+                    </div>
+
+                    <div class="pipeline-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </div>
+
+                    <!-- Stage 4: Expert Replaced -->
+                    <div class="pipeline-stage">
+                        <div class="pipeline-icon-wrap" style="background: var(--red-light);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+                        </div>
+                        <div class="pipeline-stage-num" data-i18n="pipeline_step4_num">04</div>
+                        <div class="pipeline-stage-title" data-i18n="pipeline_step4_title">Expert Becomes Replaceable</div>
+                        <div class="pipeline-stage-detail" data-i18n="pipeline_step4_detail"><strong style="color:var(--red);">57%</strong> of work already automatable</div>
+                    </div>
+                </div>
+
+                <!-- Impact Stats Bar -->
+                <div class="problem-impact-bar">
+                    <div class="impact-segment">
+                        <div class="impact-num" style="color: var(--primary);">3M+</div>
+                        <div class="impact-label" data-i18n="impact_skills">Skills published free across GPT Store, Claude &amp; agent platforms</div>
+                    </div>
+                    <div class="impact-segment">
+                        <div class="impact-num" style="color: var(--amber);">$0</div>
+                        <div class="impact-label" data-i18n="impact_returned">Returned to the creators who made them</div>
+                    </div>
+                    <div class="impact-segment highlight">
+                        <div class="impact-num" style="color: var(--red);">375M</div>
+                        <div class="impact-label" data-i18n="impact_jobs">Workers must change careers by 2030 &mdash; <strong>McKinsey</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: SOLUTION -->
+        <div class="slide" data-slide="2">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_solution">The Solution</div>
+                <h2 data-i18n="solution_title">Own Your Expertise, Forever</h2>
+                <div class="solution-layout">
+                    <div>
+                        <p class="sub" style="font-size: 16px;" data-i18n="solution_sub"><span style="font-family: var(--font-display); font-weight: 800; color: var(--primary);">democra<span style="color: var(--green);">.ai</span></span> is a data-sovereign marketplace where human expertise is packaged into AI agents — usable but never exposed, owned by creators, not platforms.</p>
+                        <div style="display: flex; align-items: flex-start; gap: 14px; margin-top: 22px;">
+                            <div style="flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px; background: var(--primary-light); display: flex; align-items: center; justify-content: center;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text);" data-i18n="solution_key1_title">Skill-Powered Agents</div>
+                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-top: 2px;" data-i18n="solution_key1">Your expertise is wrapped into agents. Users get task outcomes — never the underlying knowledge.</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 14px; margin-top: 16px;">
+                            <div style="flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px; background: var(--green-light); display: flex; align-items: center; justify-content: center;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text);" data-i18n="solution_key2_title">Zero-Knowledge Platform</div>
+                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-top: 2px;" data-i18n="solution_key2">The platform facilitates matching, execution, and settlement — it never owns or learns your skills.</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 14px; margin-top: 16px;">
+                            <div style="flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px; background: var(--amber-light); display: flex; align-items: center; justify-content: center;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0020 0h-3"/><path d="M8 5l4-3 4 3"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text);" data-i18n="solution_key3_title">Full Data Sovereignty</div>
+                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin-top: 2px;" data-i18n="solution_key3">Control who uses your skills, set pricing, revoke access anytime. Your rules, your revenue.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="layer-stack">
+                            <div class="layer layer-model">
+                                <div class="layer-label" data-i18n="layer_model">LLMs</div>
+                                <div class="layer-desc" data-i18n="layer_model_desc">General Intelligence</div>
+                            </div>
+                            <div class="layer layer-agent">
+                                <div class="layer-label" data-i18n="layer_agent">Agents</div>
+                                <div class="layer-desc" data-i18n="layer_agent_desc">Task Execution &amp; Orchestration</div>
+                            </div>
+                            <div class="layer layer-skill">
+                                <div class="layer-label" data-i18n="layer_skill">Skills &#9733;</div>
+                                <div class="layer-desc" data-i18n="layer_skill_desc"><strong class="primary">User-owned decision logic</strong></div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 10px; font-size: 12px; color: var(--primary); font-weight: 600;" data-i18n="layer_footer">
+                            &#8593; We protect and monetize this layer
+                        </div>
+                        <div style="margin-top: 20px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-sm);">
+                            <div style="font-family: var(--font-display); font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;" data-i18n="solution_flow_label">How skills stay protected</div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                                <div style="text-align: center; flex: 1;">
+                                    <div style="width: 36px; height: 36px; border-radius: 10px; background: var(--primary-light); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                                    </div>
+                                    <div style="font-size: 11px; font-weight: 600; color: var(--text); margin-top: 5px;" data-i18n="flow_request">Request</div>
+                                </div>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                <div style="text-align: center; flex: 1;">
+                                    <div style="width: 36px; height: 36px; border-radius: 10px; background: var(--amber-light); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                                    </div>
+                                    <div style="font-size: 11px; font-weight: 600; color: var(--amber); margin-top: 5px;" data-i18n="flow_skill">Skill (sealed)</div>
+                                </div>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                <div style="text-align: center; flex: 1;">
+                                    <div style="width: 36px; height: 36px; border-radius: 10px; background: var(--green-light); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                    </div>
+                                    <div style="font-size: 11px; font-weight: 600; color: var(--green); margin-top: 5px;" data-i18n="flow_result">Result only</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: MARKET SIZE & OPPORTUNITY -->
+        <div class="slide" data-slide="3">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_market">Market Size</div>
+                <h2 data-i18n="market_title">A $500B+ Opportunity</h2>
+
+                <div class="market-layout">
+                    <div style="display: flex; justify-content: center;">
+                        <svg viewBox="0 0 400 420" width="100%" style="max-width: 380px;">
+                            <defs>
+                                <radialGradient id="tamGrad" cx="50%" cy="45%" r="55%">
+                                    <stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#EEF2FF"/>
+                                </radialGradient>
+                                <radialGradient id="samGrad" cx="50%" cy="40%" r="55%">
+                                    <stop offset="0%" stop-color="#EFF6FF"/><stop offset="100%" stop-color="#DBEAFE"/>
+                                </radialGradient>
+                                <radialGradient id="somGrad" cx="50%" cy="40%" r="55%">
+                                    <stop offset="0%" stop-color="#DBEAFE"/><stop offset="100%" stop-color="#BFDBFE"/>
+                                </radialGradient>
+                                <filter id="somGlow"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                                <!-- Dashed orbit rings -->
+                                <pattern id="dashRing" patternUnits="userSpaceOnUse" width="8" height="1"><rect width="4" height="1" fill="#CBD5E1"/></pattern>
+                            </defs>
+                            <!-- Decorative orbit lines -->
+                            <circle cx="200" cy="210" r="195" fill="none" stroke="#E2E8F0" stroke-width="0.5" stroke-dasharray="3 5" opacity="0.6"/>
+                            <circle cx="200" cy="210" r="155" fill="none" stroke="#DBEAFE" stroke-width="0.5" stroke-dasharray="3 5" opacity="0.5"/>
+                            <!-- TAM — outermost -->
+                            <circle cx="200" cy="210" r="180" fill="url(#tamGrad)" stroke="#E2E8F0" stroke-width="1.5"/>
+                            <circle cx="200" cy="210" r="180" fill="none" stroke="#CBD5E1" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.4"/>
+                            <!-- TAM label — top area -->
+                            <rect x="144" y="32" width="112" height="52" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1" opacity="0.9"/>
+                            <text x="200" y="50" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="10" font-weight="700" fill="#94A3B8" letter-spacing="2">TAM</text>
+                            <text x="200" y="72" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="24" font-weight="900" fill="#475569">$500B+</text>
+                            <text x="200" y="100" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#94A3B8"
+                                data-i18n="tam_desc">AI Agents + Knowledge Economy</text>
+                            <!-- SAM — middle -->
+                            <circle cx="200" cy="240" r="112" fill="url(#samGrad)" stroke="#BFDBFE" stroke-width="1.5"/>
+                            <!-- SAM label -->
+                            <rect x="148" y="143" width="104" height="50" rx="10" fill="white" stroke="#BFDBFE" stroke-width="1" opacity="0.92"/>
+                            <text x="200" y="162" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="10" font-weight="700" fill="#60A5FA" letter-spacing="2">SAM</text>
+                            <text x="200" y="182" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="22" font-weight="900" fill="#2563EB">$80B</text>
+                            <text x="200" y="208" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#64748B"
+                                data-i18n="sam_desc">Skill Marketplace + Agent Toolchain</text>
+                            <!-- SOM — innermost with glow -->
+                            <circle cx="200" cy="278" r="52" fill="url(#somGrad)" stroke="#2563EB" stroke-width="2" filter="url(#somGlow)"/>
+                            <!-- Pulsing ring hint -->
+                            <circle cx="200" cy="278" r="58" fill="none" stroke="#2563EB" stroke-width="0.8" opacity="0.2">
+                                <animate attributeName="r" values="56;64;56" dur="3s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.25;0.05;0.25" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                            <text x="200" y="268" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="10" font-weight="700" fill="#2563EB" letter-spacing="2">SOM</text>
+                            <text x="200" y="288" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="21" font-weight="900" fill="#1D4ED8">$5B</text>
+                            <text x="200" y="305" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#475569"
+                                data-i18n="som_desc">Initial Verticals</text>
+                            <!-- Connector lines from SOM outward -->
+                            <line x1="200" y1="330" x2="200" y2="395" stroke="#2563EB" stroke-width="1" stroke-dasharray="3 3" opacity="0.3"/>
+                            <circle cx="200" cy="398" r="3" fill="#2563EB" opacity="0.4"/>
+                            <text x="200" y="415" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#2563EB" opacity="0.6">We start here</text>
+                        </svg>
+                    </div>
+                    <div class="market-drivers" id="mktDrivers">
+                        <!-- Card 1: AI Agent CAGR — ring gauge + growth bar -->
+                        <div class="mkt-card">
+                            <div class="mkt-gauge">
+                                <svg viewBox="0 0 72 72">
+                                    <circle cx="36" cy="36" r="30" class="mkt-gauge-track" stroke="#EFF6FF"/>
+                                    <circle cx="36" cy="36" r="30" class="mkt-gauge-fill" stroke="#2563EB"
+                                        stroke-dasharray="188.5" stroke-dashoffset="188.5" data-target="102"/>
+                                </svg>
+                                <div class="mkt-gauge-label">
+                                    <span class="mkt-gauge-num" style="color:var(--primary);">45.8%</span>
+                                    <span class="mkt-gauge-unit">CAGR</span>
+                                </div>
+                            </div>
+                            <div class="mkt-body">
+                                <div class="mkt-title" data-i18n="driver1_title">AI Agent Market CAGR</div>
+                                <div class="mkt-bar-wrap">
+                                    <div class="mkt-bar-fill" style="background:var(--primary);" data-width="90%"></div>
+                                </div>
+                                <div class="mkt-bar-labels">
+                                    <span class="mkt-bar-from">$5.1B <span style="color:var(--text-muted)">2024</span></span>
+                                    <span class="mkt-bar-to" style="color:var(--primary);">$50.3B <span style="font-weight:500;color:var(--text-muted);font-size:10px;">by 2030</span></span>
+                                </div>
+                                <div class="mkt-src" data-i18n="driver1_src">Grand View Research, 2025</div>
+                            </div>
+                        </div>
+                        <!-- Card 2: Creator Economy — ring gauge + growth bar -->
+                        <div class="mkt-card">
+                            <div class="mkt-gauge">
+                                <svg viewBox="0 0 72 72">
+                                    <circle cx="36" cy="36" r="30" class="mkt-gauge-track" stroke="#ECFDF5"/>
+                                    <circle cx="36" cy="36" r="30" class="mkt-gauge-fill" stroke="#059669"
+                                        stroke-dasharray="188.5" stroke-dashoffset="188.5" data-target="146"/>
+                                </svg>
+                                <div class="mkt-gauge-label">
+                                    <span class="mkt-gauge-num" style="color:var(--green);">$529B</span>
+                                    <span class="mkt-gauge-unit">by 2030</span>
+                                </div>
+                            </div>
+                            <div class="mkt-body">
+                                <div class="mkt-title" data-i18n="driver2_title">Creator Economy by 2030</div>
+                                <div class="mkt-bar-wrap">
+                                    <div class="mkt-bar-fill" style="background:var(--green);" data-width="75%"></div>
+                                </div>
+                                <div class="mkt-bar-labels">
+                                    <span class="mkt-bar-from">$205B <span style="color:var(--text-muted)">2024</span></span>
+                                    <span class="mkt-bar-to" style="color:var(--green);">$529B <span style="font-weight:500;color:var(--text-muted);font-size:10px;">22.5% CAGR</span></span>
+                                </div>
+                                <div class="mkt-src" data-i18n="driver2_src">Grand View Research, 2024</div>
+                            </div>
+                        </div>
+                        <!-- Card 3: Data Privacy — ring gauge + growth bar -->
+                        <div class="mkt-card">
+                            <div class="mkt-gauge">
+                                <svg viewBox="0 0 72 72">
+                                    <circle cx="36" cy="36" r="30" class="mkt-gauge-track" stroke="#FFFBEB"/>
+                                    <circle cx="36" cy="36" r="30" class="mkt-gauge-fill" stroke="#D97706"
+                                        stroke-dasharray="188.5" stroke-dashoffset="188.5" data-target="115"/>
+                                </svg>
+                                <div class="mkt-gauge-label">
+                                    <span class="mkt-gauge-num" style="color:var(--amber);">38.7%</span>
+                                    <span class="mkt-gauge-unit">CAGR</span>
+                                </div>
+                            </div>
+                            <div class="mkt-body">
+                                <div class="mkt-title" data-i18n="driver3_title">Data Privacy Software CAGR</div>
+                                <div class="mkt-bar-wrap">
+                                    <div class="mkt-bar-fill" style="background:var(--amber);" data-width="85%"></div>
+                                </div>
+                                <div class="mkt-bar-labels">
+                                    <span class="mkt-bar-from">$4B <span style="color:var(--text-muted)">2024</span></span>
+                                    <span class="mkt-bar-to" style="color:var(--amber);">$45.7B <span style="font-weight:500;color:var(--text-muted);font-size:10px;">by 2032</span></span>
+                                </div>
+                                <div class="mkt-src" data-i18n="driver3_src">SAC Insight, 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="market-signal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    <span class="market-signal-text" data-i18n="market_signal"><strong style="color: var(--primary);">3M+ AI skills</strong> already published across platforms with zero creator compensation, <strong style="color: var(--red);">85M talent shortage</strong> by 2030, <strong style="color: var(--purple);">84% of developers</strong> already using AI tools &mdash; the demand for protected, monetizable skills is exploding.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: PRODUCT -->
+        <div class="slide" data-slide="4">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_product">Product</div>
+                <h2 data-i18n="product_title">How It Works</h2>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="flow-num">1</div>
+                        <div class="flow-title" data-i18n="flow1_title">Package</div>
+                        <div class="flow-desc" data-i18n="flow1_desc">Encapsulate tacit knowledge as a Skill</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">2</div>
+                        <div class="flow-title" data-i18n="flow2_title">List</div>
+                        <div class="flow-desc" data-i18n="flow2_desc">Publish with sovereignty controls</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">3</div>
+                        <div class="flow-title" data-i18n="flow3_title">Discover</div>
+                        <div class="flow-desc" data-i18n="flow3_desc">Agents find the right skills</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">4</div>
+                        <div class="flow-title" data-i18n="flow4_title">Execute</div>
+                        <div class="flow-desc" data-i18n="flow4_desc">Runs in secure environment</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-num">5</div>
+                        <div class="flow-title" data-i18n="flow5_title">Earn</div>
+                        <div class="flow-desc" data-i18n="flow5_desc">Revenue + full ownership</div>
+                    </div>
+                </div>
+                <!-- Architecture Diagram — creative flow layout -->
+                <div class="arch-diagram" id="archDiagram">
+                    <div class="arch-flow" id="archFlow">
+                        <!-- Row 1: User (circle) → Studio (card) → Marketplace (card) → Agent (circle) -->
+                        <div class="arch-endpoint arch-user">
+                            <div class="arch-endpoint-circle" style="border-color:#D97706; background:#FEF3C7;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <span class="arch-endpoint-label" style="color:var(--amber);">User</span>
+                        </div>
+
+                        <div class="arch-card arch-studio" style="border-color:var(--primary-mid); background:var(--primary-light);">
+                            <div class="icon-box primary-bg">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                            </div>
+                            <div class="arch-card-body">
+                                <h3 data-i18n="feat1_title">Skill Building Studio</h3>
+                                <p class="small" data-i18n="feat1_desc">Create skills from professional files, projects, or AI conversations</p>
+                            </div>
+                        </div>
+
+                        <div class="arch-card arch-market" style="border-color:#A7F3D0; background:var(--green-light);">
+                            <div class="icon-box green-bg">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 8h.01"/><path d="M11 8h6"/><path d="M7 12h.01"/><path d="M11 12h6"/></svg>
+                            </div>
+                            <div class="arch-card-body">
+                                <h3 data-i18n="feat2_title">Skill Marketplace</h3>
+                                <p class="small" data-i18n="feat2_desc">Decentralized frontend — listed, discovered, traded</p>
+                            </div>
+                        </div>
+
+                        <div class="arch-endpoint arch-agent">
+                            <div class="arch-endpoint-circle" style="border-color:#6366F1; background:#EEF2FF;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2" stroke-linecap="round"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 110 2h-1.27a7 7 0 01-13.46 0H5a1 1 0 110-2h1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2z"/></svg>
+                            </div>
+                            <span class="arch-endpoint-label" style="color:#6366F1;">AI Agent</span>
+                        </div>
+
+                        <!-- Middle: SVG connectors drawn by JS -->
+                        <svg id="archArrows" style="grid-column:1/-1;grid-row:1/4;width:100%;height:100%;pointer-events:none;z-index:1;position:absolute;inset:0;">
+                            <defs>
+                                <marker id="ah-blue" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#2563EB"/></marker>
+                                <marker id="ah-green" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#059669"/></marker>
+                                <marker id="ah-purple" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#7C3AED"/></marker>
+                                <marker id="ah-red" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#DC2626"/></marker>
+                                <marker id="ah-indigo" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#6366F1"/></marker>
+                                <marker id="ah-gray" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#94A3B8"/></marker>
+                                <marker id="ah-gray-r" markerWidth="7" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse"><polygon points="0 0,7 2.5,0 5" fill="#94A3B8"/></marker>
+                            </defs>
+                        </svg>
+
+                        <!-- Row 3: TEE + On-Chain (below Studio + Marketplace) -->
+                        <div class="arch-card arch-tee" style="border-color:#DDD6FE; background:var(--purple-light);">
+                            <div class="icon-box purple-bg">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                            </div>
+                            <div class="arch-card-body">
+                                <h3 data-i18n="feat3_title">Trusted Execution Environment</h3>
+                                <p class="small" data-i18n="feat3_desc">Sandboxed TEE — agents get results only</p>
+                            </div>
+                        </div>
+                        <div class="arch-card arch-chain" style="border-color:#FECACA; background:var(--red-light);">
+                            <div class="icon-box red-bg">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
+                            </div>
+                            <div class="arch-card-body">
+                                <h3 data-i18n="feat4_title">On-Chain Skill Rights</h3>
+                                <p class="small" data-i18n="feat4_desc">Ownership &amp; royalties via smart contracts</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Web3 Foundation -->
+                    <div class="web3-foundation" id="archWeb3">
+                        <div class="web3-foundation-label" data-i18n="web3_label">&#x2B21; Web3 Infrastructure Layer</div>
+                        <div class="web3-foundation-items">
+                            <div class="web3-tag"><div class="web3-tag-dot" style="background:#7C3AED;"></div><span data-i18n="web3_p1">On-Chain Ownership</span></div>
+                            <div class="web3-tag"><div class="web3-tag-dot" style="background:#059669;"></div><span data-i18n="web3_p2">Smart Contract Settlement</span></div>
+                            <div class="web3-tag"><div class="web3-tag-dot" style="background:#2563EB;"></div><span data-i18n="web3_p3">Immutable Provenance</span></div>
+                            <div class="web3-tag"><div class="web3-tag-dot" style="background:#D97706;"></div><span data-i18n="web3_p4">Decentralized Identity</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: TRACTION -->
+        <div class="slide" data-slide="5">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_traction">Traction</div>
+                <h2 data-i18n="traction_title">Early Momentum</h2>
+                <p class="sub" style="max-width: 680px;" data-i18n="traction_sub">Validated the problem, built the product, and launched viral campaigns to prove market demand.</p>
+
+                <div class="traction-layout">
+                    <div>
+                        <div style="font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px;"
+                            data-i18n="dev_timeline">Development Timeline</div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot-wrap"><div class="timeline-dot done"></div></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Q4 2025</div>
+                                    <div class="timeline-title" data-i18n="tl1_title">Market Research</div>
+                                    <div class="timeline-desc" data-i18n="tl1_desc">Expert interviews, competitive analysis, architecture design</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot-wrap"><div class="timeline-dot done"></div></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date" data-i18n="tl2b_date">Q1 2026</div>
+                                    <div class="timeline-title" data-i18n="tl2b_title">Viral Campaign Launch</div>
+                                    <div class="timeline-desc" data-i18n="tl2b_desc">AI Replacement Risk Calculator went viral — validated massive market anxiety</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot-wrap"><div class="timeline-dot current"></div></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date" data-i18n="tl2_date">Q1–Q2 2026 — Now</div>
+                                    <div class="timeline-title" data-i18n="tl2_title">Building MVP</div>
+                                    <div class="timeline-desc" data-i18n="tl2_desc">Core Skill packaging engine, sovereign execution PoC, platform prototype</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot-wrap"><div class="timeline-dot upcoming"></div></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date" data-i18n="tl3_date">Q3 2026</div>
+                                    <div class="timeline-title" data-i18n="tl3_title">Closed Beta</div>
+                                    <div class="timeline-desc" data-i18n="tl3_desc">First experts onboarded, marketplace matching live</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot-wrap"><div class="timeline-dot upcoming"></div></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Q4 2026</div>
+                                    <div class="timeline-title" data-i18n="tl4_title">Public Launch</div>
+                                    <div class="timeline-desc" data-i18n="tl4_desc">Open marketplace, token incentives, 1,000+ users target</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px;"
+                            data-i18n="why_now">Why Now</div>
+                        <div class="whynow-list">
+                            <!-- Signal 1: Skills volume -->
+                            <div class="whynow-item">
+                                <div class="whynow-accent" style="background: var(--primary);"></div>
+                                <div class="whynow-icon" style="background: var(--primary-light); color: var(--primary);">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>
+                                </div>
+                                <div class="whynow-body">
+                                    <div class="whynow-num" style="color: var(--primary);">Signal 01</div>
+                                    <div class="whynow-title" data-i18n="whynow1_title">3M+ Skills Already Published</div>
+                                    <div class="whynow-desc" data-i18n="whynow1_desc">Massive volume of expert skills freely available on GPT Store, Claude, and agent platforms — with zero creator compensation.</div>
+                                </div>
+                            </div>
+                            <!-- Signal 2: LLMs absorbing (swapped from #3) -->
+                            <div class="whynow-item">
+                                <div class="whynow-accent" style="background: var(--amber);"></div>
+                                <div class="whynow-icon" style="background: #FEF3C7; color: var(--amber);">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 110 2h-1.27a7 7 0 01-13.46 0H5a1 1 0 110-2h1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2z"/></svg>
+                                </div>
+                                <div class="whynow-body">
+                                    <div class="whynow-num" style="color: var(--amber);">Signal 02</div>
+                                    <div class="whynow-title" data-i18n="whynow2_title">LLMs Are Absorbing Skills Now</div>
+                                    <div class="whynow-desc" data-i18n="whynow2_desc">Foundation models are actively training on expert-created skills and workflows — the window to establish ownership is closing fast.</div>
+                                </div>
+                            </div>
+                            <!-- Signal 3: AI anxiety (swapped from #2) -->
+                            <div class="whynow-item">
+                                <div class="whynow-accent" style="background: var(--red);"></div>
+                                <div class="whynow-icon" style="background: #FEE2E2; color: var(--red);">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                </div>
+                                <div class="whynow-body">
+                                    <div class="whynow-num" style="color: var(--red);">Signal 03</div>
+                                    <div class="whynow-title" data-i18n="whynow3_title">Peak AI Replacement Anxiety</div>
+                                    <div class="whynow-desc" data-i18n="whynow3_desc">Industry-wide fear of being replaced by AI is at an all-time high — professionals urgently need tools to protect their expertise.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Viral validation highlight -->
+                        <div class="viral-highlight" style="margin-top: 18px;">
+                            <div style="font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;"
+                                data-i18n="viral_label">Viral Validation</div>
+                            <div class="viral-card">
+                                <div class="viral-card-inner">
+                                    <div class="viral-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                    </div>
+                                    <div class="viral-info">
+                                        <div class="viral-name" data-i18n="viral_name">AI Replacement Risk Calculator</div>
+                                        <div class="viral-desc" data-i18n="viral_desc">Gauges how likely your job skills are to be absorbed by AI — went viral and proved massive market anxiety.</div>
+                                    </div>
+                                </div>
+                                <div class="viral-stats">
+                                    <div class="viral-stat">
+                                        <div class="viral-stat-val">50K+</div>
+                                        <div class="viral-stat-label" data-i18n="viral_s1">Visitors</div>
+                                    </div>
+                                    <div class="viral-stat">
+                                        <div class="viral-stat-val">3.2min</div>
+                                        <div class="viral-stat-label" data-i18n="viral_s2">Avg. Session</div>
+                                    </div>
+                                    <div class="viral-stat">
+                                        <div class="viral-stat-val">12%</div>
+                                        <div class="viral-stat-label" data-i18n="viral_s3">Share Rate</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: TEAM -->
+        <div class="slide" data-slide="6">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_team">Team</div>
+                <h2 data-i18n="team_title">Built by AI Researchers,<br>for Knowledge Workers</h2>
+                <div class="team-grid" style="margin-left: auto; margin-right: auto;">
+                    <div class="card" style="padding: 24px;">
+                        <div class="team-avatar-lg ceo">TS</div>
+                        <div class="team-name">Tao Shen</div>
+                        <div class="team-role" data-i18n="team_role">Founder &amp; CEO</div>
+                        <p class="team-bio" data-i18n="team_bio">Zhejiang University PhD candidate in AI &amp; Distributed Systems. 5+ years of research in ML, federated learning, and privacy-preserving computation. Deep understanding of AI democratization challenges.</p>
+                    </div>
+                    <div class="card" style="padding: 24px;">
+                        <div class="team-avatar-lg cpo">DZ</div>
+                        <div class="team-name">Didi Zhu</div>
+                        <div class="team-role" style="color: #7C3AED;" data-i18n="cpo_role">Co-founder &amp; CPO</div>
+                        <p class="team-bio" data-i18n="cpo_bio">Postdoc at Imperial College London, PhD from Zhejiang University. Expert in multimodal LLMs, vision-language alignment, and RL for foundation models. Core contributor to the LLaVA-OneVision-1.5-RL open-source framework.</p>
+                    </div>
+                    <div class="card" style="padding: 24px;">
+                        <div class="team-avatar-lg cto">ZZ</div>
+                        <div class="team-name">Ziyu Zhao</div>
+                        <div class="team-role" style="color: var(--green);" data-i18n="cto_role">Co-founder &amp; CTO</div>
+                        <p class="team-bio" data-i18n="cto_bio">Zhejiang University PhD (Chu Kochen Honors College). Research on modular LLM training, Mixture-of-Experts, agents &amp; causal inference. Production experience at ByteDance, Alibaba &amp; NetEase deploying large-scale AI systems.</p>
+                    </div>
+                </div>
+                <div style="margin-top: 18px; text-align: center;">
+                    <div style="font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;"
+                        data-i18n="key_hires">Key Hires Planned</div>
+                    <div class="hires-grid" style="justify-content: center;">
+                        <div class="hire-chip" data-i18n="hire1">Full-Stack Engineer</div>
+                        <div class="hire-chip" data-i18n="hire2">Blockchain Lead</div>
+                        <div class="hire-chip" data-i18n="hire3">Community Lead</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: COMPETITION -->
+        <div class="slide" data-slide="7">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_competition">Competition</div>
+                <h2 data-i18n="comp_title">Competitive Landscape</h2>
+                <p class="sub" style="max-width: 760px;" data-i18n="comp_sub">Many platforms let creators package expertise — none combine decentralized sovereignty, usage-rights-only access, and cross-model openness.</p>
+                <div class="comp-layout">
+                    <div class="comp-map-card">
+                        <div class="comp-map-head">
+                            <div class="comp-map-title" data-i18n="comp_map_title">Creator IP Protection × Decentralization</div>
+                            <div class="xs" data-i18n="comp_asof">As of February 2026</div>
+                        </div>
+                        <svg viewBox="0 0 540 380" width="100%">
+                            <rect x="56" y="24" width="456" height="312" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+
+                            <!-- Axes -->
+                            <line x1="72" y1="318" x2="494" y2="318" stroke="#CBD5E1" stroke-width="1.5"/>
+                            <line x1="72" y1="318" x2="72" y2="38" stroke="#CBD5E1" stroke-width="1.5"/>
+                            <line x1="284" y1="318" x2="284" y2="38" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4 4"/>
+                            <line x1="72" y1="178" x2="494" y2="178" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4 4"/>
+
+                            <!-- Axis labels -->
+                            <text x="283" y="354" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#94A3B8" data-i18n="axis_x">Centralized &#8594; Decentralized / Web3</text>
+                            <text x="24" y="178" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#94A3B8" transform="rotate(-90,24,178)" data-i18n="axis_y">Low Creator IP Protection &#8594; High Creator IP Protection</text>
+
+                            <!-- Quadrant labels -->
+                            <text x="92" y="56" font-family="Inter,sans-serif" font-size="9.5" fill="#94A3B8" data-i18n="comp_q1">Protected but centralized</text>
+                            <text x="324" y="56" font-family="Inter,sans-serif" font-size="9.5" fill="#94A3B8" data-i18n="comp_q2">Target zone: sovereign + decentralized</text>
+                            <text x="92" y="306" font-family="Inter,sans-serif" font-size="9.5" fill="#94A3B8" data-i18n="comp_q3">Traditional platforms</text>
+                            <text x="324" y="306" font-family="Inter,sans-serif" font-size="9.5" fill="#94A3B8" data-i18n="comp_q4">Decentralized, low IP protection</text>
+
+                            <!-- Relationship lines from democra.ai -->
+                            <!-- Direct lines (red solid) -->
+                            <line x1="434" y1="72" x2="175" y2="130" stroke="#DC2626" stroke-width="1.5"/>
+                            <line x1="434" y1="72" x2="188" y2="185" stroke="#DC2626" stroke-width="1.5"/>
+                            <line x1="434" y1="72" x2="395" y2="195" stroke="#DC2626" stroke-width="1.5"/>
+                            <line x1="434" y1="72" x2="405" y2="255" stroke="#DC2626" stroke-width="1.5"/>
+                            <!-- Substitute lines (amber dashed) -->
+                            <line x1="434" y1="72" x2="140" y2="265" stroke="#D97706" stroke-width="1.5" stroke-dasharray="6 4"/>
+                            <!-- Complementary lines (blue dotted) -->
+                            <line x1="434" y1="72" x2="300" y2="240" stroke="#2563EB" stroke-width="1.5" stroke-dasharray="2 4"/>
+
+                            <!-- Direct: MindPal (centralized, expertise->agent, some IP) -->
+                            <rect x="100" y="112" width="150" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
+                            <text x="175" y="131" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">MindPal</text>
+                            <text x="175" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_mindpal">Expertise &#8594; AI agent marketplace</text>
+
+                            <!-- Direct: Relevance AI (centralized, agent marketplace) -->
+                            <rect x="108" y="168" width="160" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
+                            <text x="188" y="187" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">Relevance AI</text>
+                            <text x="188" y="202" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_relevance">No-code agent builder + marketplace</text>
+
+                            <!-- Direct: SingularityNET (decentralized, AI services) -->
+                            <rect x="330" y="178" width="130" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
+                            <text x="395" y="197" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">SingularityNET</text>
+                            <text x="395" y="212" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_snet">Decentralized AI service market</text>
+
+                            <!-- Direct: Ocean Protocol (decentralized, data, compute-to-data) -->
+                            <rect x="340" y="238" width="130" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
+                            <text x="405" y="257" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">Ocean Protocol</text>
+                            <text x="405" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_ocean">Tokenized data + compute-to-data</text>
+
+                            <!-- Substitute: Upwork / Fiverr -->
+                            <rect x="82" y="246" width="118" height="44" rx="10" fill="#FFFBEB" stroke="#FCD34D" stroke-width="1.2"/>
+                            <text x="141" y="265" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#92400E">Upwork · Fiverr</text>
+                            <text x="141" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#B45309" data-i18n="comp_node_substitute">Freelancer budget substitute</text>
+
+                            <!-- Complementary: Foundation models -->
+                            <rect x="224" y="222" width="152" height="44" rx="10" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1.2"/>
+                            <text x="300" y="241" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#6D28D9" data-i18n="comp_node_fm_title">OpenAI · Anthropic · Google</text>
+                            <text x="300" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#7C3AED" data-i18n="comp_node_modeleco">Foundation models (complementary)</text>
+
+                            <!-- democra.ai (top-right: high IP + decentralized) -->
+                            <circle cx="434" cy="72" r="34" fill="#EFF6FF" stroke="#2563EB" stroke-width="2.8"/>
+                            <text x="434" y="68" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="800" fill="#2563EB">democra</text>
+                            <text x="434" y="84" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="800" fill="#059669">.ai</text>
+                        </svg>
+                        <div class="xs" style="margin-top: 8px;" data-i18n="comp_angle_desc">democra.ai uniquely combines decentralized infrastructure with usage-rights-only access — buyers execute Skills without seeing source logic, and creators retain full ownership.</div>
+                        <div class="comp-legend">
+                            <div class="comp-legend-item"><span class="comp-legend-line direct"></span><span data-i18n="comp_legend_direct">Direct: AI agent/skill marketplace competitors</span></div>
+                            <div class="comp-legend-item"><span class="comp-legend-line substitute"></span><span data-i18n="comp_legend_substitute">Substitute: compete for expert-output buyer budgets</span></div>
+                            <div class="comp-legend-item"><span class="comp-legend-line coop"></span><span data-i18n="comp_legend_coop">Complementary: foundation model vendors expand our market</span></div>
+                        </div>
+                    </div>
+                    <div class="comp-side">
+                        <div class="comp-section-title" data-i18n="comp_relation_title">Relationship Breakdown</div>
+
+                        <div class="comp-rel-card direct">
+                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r1_title">Direct: AI Agent/Skill Marketplaces</span></div>
+                            <div class="comp-rel-desc" data-i18n="comp_r1_desc">Centralized platforms where creators turn expertise into AI agents and monetize them. Same thesis but no decentralization, no usage-rights-only model.</div>
+                            <div class="comp-rel-tags">
+                                <span class="comp-rel-tag">MindPal</span>
+                                <span class="comp-rel-tag">Relevance AI</span>
+                            </div>
+                        </div>
+
+                        <div class="comp-rel-card direct">
+                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r2_title">Direct: Decentralized AI Marketplaces</span></div>
+                            <div class="comp-rel-desc" data-i18n="comp_r2_desc">Web3-native AI marketplaces for models and data. Decentralized but focused on AI services and datasets — not expert tacit knowledge as protected skills.</div>
+                            <div class="comp-rel-tags">
+                                <span class="comp-rel-tag">SingularityNET</span>
+                                <span class="comp-rel-tag">Ocean Protocol</span>
+                            </div>
+                        </div>
+
+                        <div class="comp-rel-card substitute">
+                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r3_title">Substitute: Freelancer Platforms</span></div>
+                            <div class="comp-rel-desc" data-i18n="comp_r3_desc">The traditional way to buy expert output. democra.ai Skills are faster, cheaper, 24/7 available, and infinitely scalable — replacing per-task hiring.</div>
+                            <div class="comp-rel-tags">
+                                <span class="comp-rel-tag">Upwork</span>
+                                <span class="comp-rel-tag">Fiverr</span>
+                            </div>
+                        </div>
+
+                        <div class="comp-rel-card coop">
+                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r4_title">Complementary: Foundation Models</span></div>
+                            <div class="comp-rel-desc" data-i18n="comp_r4_desc">Better base models increase demand for specialized Skills. They provide capability; we provide sovereignty and monetization.</div>
+                            <div class="comp-rel-tags">
+                                <span class="comp-rel-tag">OpenAI</span>
+                                <span class="comp-rel-tag">Anthropic</span>
+                                <span class="comp-rel-tag">Google</span>
+                            </div>
+                        </div>
+
+                        <div class="comp-win-card">
+                            <div class="comp-section-title" style="margin: 0;" data-i18n="comp_win_title">Why democra.ai Wins</div>
+                            <div class="comp-win-list">
+                                <div class="comp-win-item" data-i18n="comp_win1">Usage-rights-only: buyers execute Skills without ever seeing source logic or prompts.</div>
+                                <div class="comp-win-item" data-i18n="comp_win2">Decentralized sovereignty: pricing, revocation, and ownership stay with creators on-chain.</div>
+                                <div class="comp-win-item" data-i18n="comp_win3">Model-agnostic: works with any LLM provider — no platform lock-in for creators or buyers.</div>
+                            </div>
+                            <div class="xs" style="margin-top: 8px;" data-i18n="comp_sources_hint">Company pages and product announcements, checked Feb 2026.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: FINANCIALS -->
+        <div class="slide" data-slide="8">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_financials">Financials</div>
+                <h2 data-i18n="fin_title">Revenue Model &amp; Projections</h2>
+                <div class="fin-layout">
+                    <div>
+                        <div style="font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;"
+                            data-i18n="rev_streams">Revenue Streams</div>
+                        <div class="revenue-item">
+                            <div class="revenue-pct primary">40%</div>
+                            <div>
+                                <div class="revenue-name" data-i18n="rev1_name">Transaction Fees</div>
+                                <div class="revenue-desc" data-i18n="rev1_desc">5-15% commission per skill usage</div>
+                            </div>
+                        </div>
+                        <div class="revenue-item">
+                            <div class="revenue-pct green">25%</div>
+                            <div>
+                                <div class="revenue-name" data-i18n="rev2_name">Premium Subscriptions</div>
+                                <div class="revenue-desc" data-i18n="rev2_desc">Advanced analytics, priority matching</div>
+                            </div>
+                        </div>
+                        <div class="revenue-item">
+                            <div class="revenue-pct amber">20%</div>
+                            <div>
+                                <div class="revenue-name" data-i18n="rev3_name">Enterprise API / SDK</div>
+                                <div class="revenue-desc" data-i18n="rev3_desc">Licensing for enterprise integrations</div>
+                            </div>
+                        </div>
+                        <div class="revenue-item">
+                            <div class="revenue-pct" style="color: var(--purple);">15%</div>
+                            <div>
+                                <div class="revenue-name" data-i18n="rev4_name">Sovereign Execution Fees</div>
+                                <div class="revenue-desc" data-i18n="rev4_desc">Secure compute environment usage</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;"
+                            data-i18n="projections">3-Year Projections</div>
+                        <table class="fin-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th data-i18n="year1">Year 1</th>
+                                    <th data-i18n="year2">Year 2</th>
+                                    <th data-i18n="year3">Year 3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-i18n="row_users">Users</td>
+                                    <td>1,000</td>
+                                    <td>15,000</td>
+                                    <td>100,000</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="row_skills">Skills Listed</td>
+                                    <td>200</td>
+                                    <td>5,000</td>
+                                    <td>50,000</td>
+                                </tr>
+                                <tr><td>GMV</td><td>$500K</td><td>$8M</td><td>$80M</td></tr>
+                                <tr class="highlight">
+                                    <td data-i18n="row_revenue">Revenue</td>
+                                    <td>$50K</td>
+                                    <td>$1.2M</td>
+                                    <td>$12M</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="fin-metric-row">
+                    <div class="fin-metric">
+                        <div class="fin-metric-num green">5x+</div>
+                        <div class="fin-metric-label" data-i18n="metric1">Target LTV / CAC — near-zero marginal cost per transaction</div>
+                    </div>
+                    <div class="fin-metric">
+                        <div class="fin-metric-num primary">85%+</div>
+                        <div class="fin-metric-label" data-i18n="metric2">Target gross margin — software-only platform model</div>
+                    </div>
+                    <div class="fin-metric">
+                        <div class="fin-metric-num amber">10%</div>
+                        <div class="fin-metric-label" data-i18n="metric3">Blended take rate — competitive for creator platforms</div>
+                    </div>
+                    <div class="fin-metric">
+                        <div class="fin-metric-num" style="color: var(--purple);">18 mo</div>
+                        <div class="fin-metric-label" data-i18n="metric4">Target path to breakeven — lean team, low burn</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: INVESTMENT & USE OF FUNDS -->
+        <div class="slide" data-slide="9">
+            <div class="slide-inner">
+                <div class="label" data-i18n="label_investment">Investment</div>
+                <h2 data-i18n="invest_title">Raising $500K Pre-Seed</h2>
+                <div class="ask-layout">
+                    <div>
+                        <h3 style="margin-bottom: 14px;" data-i18n="use_of_funds">Use of Funds</h3>
+                        <div class="fund-bar">
+                            <div class="fund-pct primary">60%</div>
+                            <div class="fund-bar-fill" style="width: 60%; background: var(--primary);"></div>
+                            <div class="fund-label" data-i18n="fund1">Product Development</div>
+                        </div>
+                        <div class="fund-bar">
+                            <div class="fund-pct green">25%</div>
+                            <div class="fund-bar-fill" style="width: 25%; background: var(--green);"></div>
+                            <div class="fund-label" data-i18n="fund2">Team Expansion</div>
+                        </div>
+                        <div class="fund-bar">
+                            <div class="fund-pct amber">10%</div>
+                            <div class="fund-bar-fill" style="width: 10%; background: var(--amber);"></div>
+                            <div class="fund-label" data-i18n="fund3">Operations</div>
+                        </div>
+                        <div class="fund-bar">
+                            <div class="fund-pct" style="color: var(--purple);">5%</div>
+                            <div class="fund-bar-fill" style="width: 5%; background: var(--purple);"></div>
+                            <div class="fund-label" data-i18n="fund4">Legal &amp; Compliance</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 14px;" data-i18n="milestones">Milestones</h3>
+                        <div>
+                            <div class="milestone">
+                                <div class="milestone-time" data-i18n="ms1_time">3 Months</div>
+                                <div class="milestone-text" data-i18n="ms1_text"><strong style="color: var(--text);">MVP Launch</strong> — First Skills
+                                    listed, core marketplace live</div>
+                            </div>
+                            <div class="milestone">
+                                <div class="milestone-time" data-i18n="ms2_time">6 Months</div>
+                                <div class="milestone-text" data-i18n="ms2_text"><strong style="color: var(--text);">1,000 Users</strong> — Vertical
+                                    communities in research, legal, medical</div>
+                            </div>
+                            <div class="milestone">
+                                <div class="milestone-time" data-i18n="ms3_time">12 Months</div>
+                                <div class="milestone-text" data-i18n="ms3_text"><strong style="color: var(--text);">Seed Round</strong> — PMF proven,
+                                    scaling team &amp; expansion</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cta-section">
+                    <div class="cta-title" data-i18n="cta_title">Let's reclaim skill sovereignty in the age of AI</div>
+                    <p class="small" data-i18n="cta_sub">We're looking for investors who believe the knowledge economy should remain in the
+                        hands of its creators.</p>
+                    <div class="contact-links">
+                        <a class="contact-link" href="mailto:tao.shen@democra.ai">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            tao.shen@democra.ai
+                        </a>
+                        <a class="contact-link" href="https://x.com/tao_shen_">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+                            @tao_shen
+                        </a>
+                        <a class="contact-link" href="https://t.me/taoshen1">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                            t.me/taoshen1
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+    <div class="top-bar hidden">
+        <div class="top-bar-spacer"><div class="top-bar-label" id="topBarLabel" aria-hidden="true" style="display:none"></div></div>
+        <div class="top-bar-brand">democra<span class="dot">.ai</span></div>
+        <div class="top-bar-spacer top-bar-right">
+            <div class="top-bar-lang">
+                <button type="button" class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLang()" aria-label="Toggle language">EN</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav">
+        <div class="nav-dots" id="navDots"></div>
+        <div class="nav-counter">
+            <span class="cur" id="curSlide">01</span> / <span id="totalSlides">10</span>
+        </div>
+        <div class="nav-arrows">
+            <button class="nav-btn" id="prevBtn" aria-label="Previous slide">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="nav-btn" id="nextBtn" aria-label="Next slide">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const i18n = {
+            en: {
+                badge: 'Pre-Seed &middot; 2026',
+                cover_tag: 'Your Skills. Your Sovereignty.',
+                cover_sub: 'Your expertise as protected digital assets — usable but never exposed, owned by you.',
+                role_ceo: 'CEO',
+                label_problem: 'The Problem',
+                problem_title: 'Expert Skills Are Being Harvested at Scale',
+                problem_hero: 'returned to 3M+ creators whose expertise powers today\'s AI agent platforms.',
+                pipeline_step1_num: '01', pipeline_step1_title: 'Expert Creates Skill', pipeline_step1_detail: 'Workflows, prompts, decision logic',
+                pipeline_step2_num: '02', pipeline_step2_title: 'Published Free on Platforms', pipeline_step2_detail: '<strong>3M+</strong> GPTs &amp; Skills, zero compensation',
+                pipeline_step3_num: '03', pipeline_step3_title: 'AI Absorbs Your Expertise', pipeline_step3_detail: 'Skills are the new training data',
+                pipeline_step4_num: '04', pipeline_step4_title: 'Expert Becomes Replaceable', pipeline_step4_detail: '<strong style="color:var(--red);">57%</strong> of work already automatable',
+                impact_skills: 'Skills published free across GPT Store, Claude &amp; agent platforms',
+                impact_returned: 'Returned to the creators who made them',
+                impact_jobs: 'Workers must change careers by 2030 &mdash; <strong>McKinsey</strong>',
+                label_solution: 'The Solution',
+                solution_title: 'Own Your Expertise, Forever',
+                solution_sub: '<span style="font-family:var(--font-display);font-weight:800;color:var(--primary);">democra<span style="color:var(--green);">.ai</span></span> is a data-sovereign marketplace where human expertise is packaged into AI agents — usable but never exposed, owned by creators, not platforms.',
+                solution_key1_title: 'Skill-Powered Agents',
+                solution_key1: 'Your expertise is wrapped into agents. Users get task outcomes — never the underlying knowledge.',
+                solution_key2_title: 'Zero-Knowledge Platform',
+                solution_key2: 'The platform facilitates matching, execution, and settlement — it never owns or learns your skills.',
+                solution_key3_title: 'Full Data Sovereignty',
+                solution_key3: 'Control who uses your skills, set pricing, revoke access anytime. Your rules, your revenue.',
+                solution_flow_label: 'How skills stay protected',
+                flow_request: 'Request', flow_skill: 'Skill (sealed)', flow_result: 'Result only',
+                layer_model: 'Foundation Models', layer_model_desc: 'General Intelligence',
+                layer_agent: 'Agents', layer_agent_desc: 'Task Execution &amp; Orchestration',
+                layer_skill: 'Skills &#9733;', layer_skill_desc: '<strong class="primary">User-owned decision logic</strong>',
+                layer_footer: '&#8593; We protect and monetize this layer',
+                label_market: 'Market Size', market_title: 'A $500B+ Opportunity',
+                tam_desc: 'AI Agents + Knowledge Economy', sam_desc: 'Skill Marketplace + Agent Toolchain', som_desc: 'Initial Verticals',
+                driver1_title: 'AI Agent Market CAGR', driver1_desc: '$5.1B → $50.3B by 2030', driver1_src: 'Grand View Research, 2025',
+                driver2_title: 'Creator Economy by 2030', driver2_desc: 'From $205B in 2024 — 22.5% CAGR', driver2_src: 'Grand View Research, 2024',
+                driver3_title: 'Data Privacy Software CAGR', driver3_desc: '$4B → $45.7B by 2032', driver3_src: 'SAC Insight, 2024',
+                market_signal: '<strong style="color: var(--primary);">3M+ AI skills</strong> already published across platforms with zero creator compensation, <strong style="color: var(--red);">85M talent shortage</strong> by 2030, <strong style="color: var(--purple);">84% of developers</strong> already using AI tools &mdash; the demand for protected, monetizable skills is exploding.',
+                label_product: 'Product', product_title: 'How It Works',
+                flow1_title: 'Package', flow1_desc: 'Encapsulate tacit knowledge as a Skill',
+                flow2_title: 'List', flow2_desc: 'Publish with sovereignty controls',
+                flow3_title: 'Discover', flow3_desc: 'Agents find the right skills',
+                flow4_title: 'Execute', flow4_desc: 'Runs in secure environment',
+                flow5_title: 'Earn', flow5_desc: 'Revenue + full ownership',
+                feat1_title: 'Skill Building Studio', feat1_desc: 'Create skills from your professional files, engineering projects, or AI conversations',
+                feat1_detail: 'Upload docs, code repos, chat logs → auto-extract decision logic → package into a sovereign Skill',
+                feat2_title: 'Skill Marketplace', feat2_desc: 'A decentralized frontend where skills are listed, discovered, and traded by agents and buyers',
+                feat2_detail: 'Semantic search, reputation scoring, pricing controls — creators set their own terms',
+                feat3_title: 'Trusted Execution Environment', feat3_desc: 'Skills run in a sandboxed TEE — agents receive only the result, never the underlying logic',
+                feat3_detail: 'Hardware-level isolation, encrypted runtime state, verifiable execution proof',
+                feat4_title: 'On-Chain Skill Rights', feat4_desc: 'Skill ownership, usage rights, and royalties enforced by smart contracts on-chain',
+                feat4_detail: 'Mint skill as NFT, immutable provenance, automated royalty splits, creator attribution',
+                web3_label: '⬡ Web3 Infrastructure Layer',
+                web3_p1: 'On-Chain Ownership', web3_p2: 'Smart Contract Settlement',
+                web3_p3: 'Immutable Provenance', web3_p4: 'Decentralized Identity',
+                label_traction: 'Traction', traction_title: 'Early Momentum',
+                traction_sub: 'Validated the problem, built the product, and launched viral campaigns to prove market demand.',
+                dev_timeline: 'Development Timeline',
+                tl1_title: 'Market Research', tl1_desc: 'Expert interviews, competitive analysis, architecture design',
+                tl2b_date: 'Q1 2026', tl2b_title: 'Viral Campaign Launch', tl2b_desc: 'AI Replacement Risk Calculator went viral — validated massive market anxiety',
+                tl2_date: 'Q1–Q2 2026 — Now', tl2_title: 'Building MVP', tl2_desc: 'Core Skill packaging engine, sovereign execution PoC, platform prototype',
+                tl3_date: 'Q3 2026', tl3_title: 'Closed Beta', tl3_desc: 'First experts onboarded, marketplace matching live',
+                tl4_title: 'Public Launch', tl4_desc: 'Open marketplace, token incentives, 1,000+ users target',
+                why_now: 'Why Now',
+                whynow1_title: '3M+ Skills Already Published', whynow1_desc: 'Massive volume of expert skills freely available on GPT Store, Claude, and agent platforms — with zero creator compensation.',
+                whynow2_title: 'LLMs Are Absorbing Skills Now', whynow2_desc: 'Foundation models are actively training on expert-created skills and workflows — the window to establish ownership is closing fast.',
+                whynow3_title: 'Peak AI Replacement Anxiety', whynow3_desc: 'Industry-wide fear of being replaced by AI is at an all-time high — professionals urgently need tools to protect their expertise.',
+                viral_label: 'Viral Validation', viral_name: 'AI Replacement Risk Calculator', viral_desc: 'Gauges how likely your job skills are to be absorbed by AI — went viral and proved massive market anxiety.',
+                viral_s1: 'Visitors', viral_s2: 'Avg. Session', viral_s3: 'Share Rate',
+                label_team: 'Team', team_title: 'Built by AI Researchers,<br>for Knowledge Workers',
+                team_role: 'Founder &amp; CEO',
+                team_bio: 'Zhejiang University PhD candidate in AI &amp; Distributed Systems. 5+ years of research in ML, federated learning, and privacy-preserving computation. Deep understanding of AI democratization challenges.',
+                cpo_role: 'Co-founder &amp; CPO',
+                cpo_bio: 'Postdoc at Imperial College London, PhD from Zhejiang University. Expert in multimodal LLMs, vision-language alignment, and RL for foundation models. Core contributor to the LLaVA-OneVision-1.5-RL open-source framework.',
+                cto_role: 'Co-founder &amp; CTO',
+                cto_bio: 'Zhejiang University PhD (Chu Kochen Honors College). Research on modular LLM training, Mixture-of-Experts, agents &amp; causal inference. Production experience at ByteDance, Alibaba &amp; NetEase deploying large-scale AI systems.',
+                key_hires: 'Key Hires Planned', hire1: 'Full-Stack Engineer', hire2: 'Blockchain Lead', hire3: 'Community Lead',
+                label_competition: 'Competition',
+                comp_title: 'Competitive Landscape',
+                comp_sub: 'Many platforms let creators package expertise — none combine decentralized sovereignty, usage-rights-only access, and cross-model openness.',
+                comp_map_title: 'Creator IP Protection × Decentralization',
+                comp_asof: 'As of February 2026',
+                axis_x: 'Centralized &#8594; Decentralized / Web3',
+                axis_y: 'Low Creator IP Protection &#8594; High Creator IP Protection',
+                comp_q1: 'Protected but centralized',
+                comp_q2: 'Target zone: sovereign + decentralized',
+                comp_q3: 'Traditional platforms',
+                comp_q4: 'Decentralized, low IP protection',
+                comp_node_mindpal: 'Expertise &#8594; AI agent marketplace',
+                comp_node_relevance: 'No-code agent builder + marketplace',
+                comp_node_snet: 'Decentralized AI service market',
+                comp_node_ocean: 'Tokenized data + compute-to-data',
+                comp_node_fm_title: 'OpenAI · Anthropic · Google',
+                comp_node_modeleco: 'Foundation models (complementary)',
+                comp_node_substitute: 'Freelancer budget substitute',
+                comp_angle_desc: 'democra.ai uniquely combines decentralized infrastructure with usage-rights-only access — buyers execute Skills without seeing source logic, and creators retain full ownership.',
+                comp_legend_direct: 'Direct: AI agent/skill marketplace competitors',
+                comp_legend_substitute: 'Substitute: compete for expert-output buyer budgets',
+                comp_legend_coop: 'Complementary: foundation model vendors expand our market',
+                comp_relation_title: 'Relationship Breakdown',
+                comp_r1_title: 'Direct: AI Agent/Skill Marketplaces',
+                comp_r1_desc: 'Centralized platforms where creators turn expertise into AI agents and monetize them. Same thesis but no decentralization, no usage-rights-only model.',
+                comp_r2_title: 'Direct: Decentralized AI Marketplaces',
+                comp_r2_desc: 'Web3-native AI marketplaces for models and data. Decentralized but focused on AI services and datasets — not expert tacit knowledge as protected skills.',
+                comp_r3_title: 'Substitute: Freelancer Platforms',
+                comp_r3_desc: 'The traditional way to buy expert output. democra.ai Skills are faster, cheaper, 24/7 available, and infinitely scalable — replacing per-task hiring.',
+                comp_r4_title: 'Complementary: Foundation Models',
+                comp_r4_desc: 'Better base models increase demand for specialized Skills. They provide capability; we provide sovereignty and monetization.',
+                comp_win_title: 'Why democra.ai Wins',
+                comp_win1: 'Usage-rights-only: buyers execute Skills without ever seeing source logic or prompts.',
+                comp_win2: 'Decentralized sovereignty: pricing, revocation, and ownership stay with creators on-chain.',
+                comp_win3: 'Model-agnostic: works with any LLM provider — no platform lock-in for creators or buyers.',
+                comp_sources_hint: 'Company pages and product announcements, checked Feb 2026.',
+                label_financials: 'Financials', fin_title: 'Revenue Model &amp; Projections',
+                rev_streams: 'Revenue Streams',
+                rev1_name: 'Transaction Fees', rev1_desc: '5-15% commission per skill usage',
+                rev2_name: 'Premium Subscriptions', rev2_desc: 'Advanced analytics, priority matching',
+                rev3_name: 'Enterprise API / SDK', rev3_desc: 'Licensing for enterprise integrations',
+                rev4_name: 'Sovereign Execution Fees', rev4_desc: 'Secure compute environment usage',
+                projections: '3-Year Projections', year1: 'Year 1', year2: 'Year 2', year3: 'Year 3',
+                row_users: 'Users', row_skills: 'Skills Listed', row_revenue: 'Revenue',
+                metric1: 'Target LTV / CAC — near-zero marginal cost per transaction',
+                metric2: 'Target gross margin — software-only platform model',
+                metric3: 'Blended take rate — competitive for creator platforms',
+                metric4: 'Target path to breakeven — lean team, low burn',
+                label_investment: 'Investment', invest_title: 'Raising $500K Pre-Seed',
+                use_of_funds: 'Use of Funds', fund1: 'Product Development', fund2: 'Team Expansion', fund3: 'Operations', fund4: 'Legal &amp; Compliance',
+                milestones: 'Milestones',
+                ms1_time: '3 Months', ms1_text: '<strong style="color: var(--text);">MVP Launch</strong> — First Skills listed, core marketplace live',
+                ms2_time: '6 Months', ms2_text: '<strong style="color: var(--text);">1,000 Users</strong> — Vertical communities in research, legal, medical',
+                ms3_time: '12 Months', ms3_text: '<strong style="color: var(--text);">Seed Round</strong> — PMF proven, scaling team &amp; expansion',
+                cta_title: "Let's reclaim skill sovereignty in the age of AI",
+                cta_sub: "We're looking for investors who believe the knowledge economy should remain in the hands of its creators.",
+            },
+            zh: {
+                badge: '种子前轮 &middot; 2026',
+                cover_tag: '你的技能，你的主权。',
+                cover_sub: '你的专业技能化为受保护的数字资产 — 可用但不可见，归你所有。',
+                role_ceo: '创始人 & CEO',
+                label_problem: '核心问题', problem_title: '专业技能正在被大规模收割',
+                problem_hero: '回馈给 300万+ 创作者 — 他们的专业技能正在驱动今天的 AI Agent 平台。',
+                pipeline_step1_num: '01', pipeline_step1_title: '专家创建技能', pipeline_step1_detail: '工作流、提示词、决策逻辑',
+                pipeline_step2_num: '02', pipeline_step2_title: '免费发布到平台', pipeline_step2_detail: '<strong>300万+</strong> GPT 与 Skills，零报酬',
+                pipeline_step3_num: '03', pipeline_step3_title: 'AI 正在吸收你的专业技能', pipeline_step3_detail: '技能正成为新的训练数据',
+                pipeline_step4_num: '04', pipeline_step4_title: '专家变得可替代', pipeline_step4_detail: '<strong style="color:var(--red);">57%</strong> 的工作已可被自动化',
+                impact_skills: '技能免费发布在 GPT Store、Claude 和各 Agent 平台',
+                impact_returned: '回馈给创造它们的专家',
+                impact_jobs: '劳动者到2030年需要转行 — <strong>麦肯锡</strong>',
+                label_solution: '解决方案', solution_title: '永远拥有你的专业技能',
+                solution_sub: '<span style="font-family:var(--font-display);font-weight:800;color:var(--primary);">democra<span style="color:var(--green);">.ai</span></span> 是一个数据主权市场，人类专业技能被封装为 AI Agent — 可用但不可见，归创作者所有，而非平台。',
+                solution_key1_title: '技能驱动的 Agent',
+                solution_key1: '你的专业技能被封装为 Agent。用户获得任务结果 — 永远无法获取底层知识。',
+                solution_key2_title: '零知识平台',
+                solution_key2: '平台负责匹配、执行与结算 — 绝不拥有或学习你的技能。',
+                solution_key3_title: '完整数据主权',
+                solution_key3: '控制谁能使用你的技能、设定价格、随时撤销访问。你的规则，你的收益。',
+                solution_flow_label: '技能如何保持受保护',
+                flow_request: '请求', flow_skill: '技能（密封）', flow_result: '仅返回结果',
+                layer_model: '基础模型', layer_model_desc: '通用智能',
+                layer_agent: '智能体', layer_agent_desc: '任务执行与编排',
+                layer_skill: '技能 &#9733;', layer_skill_desc: '<strong class="primary">用户拥有的决策逻辑</strong>',
+                layer_footer: '&#8593; 我们保护并变现这一层',
+                label_market: '市场规模', market_title: '$5000亿+ 的机遇',
+                tam_desc: 'AI Agent + 知识经济', sam_desc: '技能市场 + Agent 工具链', som_desc: '初始垂直领域',
+                driver1_title: 'AI Agent 市场年复合增长率', driver1_desc: '$51亿 → $503亿（至2030年）', driver1_src: 'Grand View Research, 2025',
+                driver2_title: '2030年创作者经济规模', driver2_desc: '从2024年的$2050亿起 — 22.5% CAGR', driver2_src: 'Grand View Research, 2024',
+                driver3_title: '数据隐私软件年复合增长率', driver3_desc: '$40亿 → $457亿（至2032年）', driver3_src: 'SAC Insight, 2024',
+                market_signal: '<strong style="color: var(--primary);">300万+ AI技能</strong> 已在各平台发布且创作者零收入，<strong style="color: var(--red);">8500万人才缺口</strong> 至2030年，<strong style="color: var(--purple);">84% 的开发者</strong>已在使用AI工具 &mdash; 可保护、可变现的技能需求正在爆发。',
+                label_product: '产品', product_title: '如何运作',
+                flow1_title: '封装', flow1_desc: '将隐性知识封装为 Skill',
+                flow2_title: '发布', flow2_desc: '带主权控制地发布',
+                flow3_title: '发现', flow3_desc: 'Agent 找到合适的技能',
+                flow4_title: '执行', flow4_desc: '在安全环境中运行',
+                flow5_title: '收益', flow5_desc: '收入 + 完整所有权',
+                feat1_title: 'Skill 构建工作室', feat1_desc: '从专业文件、工程项目或 AI 对话中创建属于你的 Skill',
+                feat1_detail: '上传文档、代码仓库、对话记录 → 自动提取决策逻辑 → 封装为主权 Skill',
+                feat2_title: 'Skill 交易市场', feat2_desc: '去中心化前端市场，技能在此上架、被发现、被 Agent 或买家交易',
+                feat2_detail: '语义搜索、信誉评分、定价控制 — 创作者自主设定条款',
+                feat3_title: '可信执行环境（TEE）', feat3_desc: 'Skill 在沙箱 TEE 中运行，Agent 只获得结果，永远看不到底层逻辑',
+                feat3_detail: '硬件级隔离、加密运行状态、可验证执行证明',
+                feat4_title: '链上技能确权', feat4_desc: 'Skill 所有权、使用授权与版税由链上智能合约强制执行',
+                feat4_detail: '将 Skill 铸造为 NFT、不可篡改的溯源记录、自动版税分成、创作者归属',
+                web3_label: '⬡ Web3 基础设施层',
+                web3_p1: '链上所有权', web3_p2: '智能合约结算',
+                web3_p3: '不可篡改溯源', web3_p4: '去中心化身份',
+                label_traction: '发展动力', traction_title: '早期势能',
+                traction_sub: '验证了问题、构建了产品，并通过爆款营销证明了市场需求。',
+                dev_timeline: '开发时间线',
+                tl1_title: '市场调研', tl1_desc: '专家访谈、竞品分析、架构设计',
+                tl2b_date: 'Q1 2026', tl2b_title: '爆款营销上线', tl2b_desc: 'AI 替代风险计算器爆火 — 验证了巨大的市场焦虑',
+                tl2_date: 'Q1–Q2 2026 — 当前', tl2_title: '构建 MVP', tl2_desc: '核心 Skill 封装引擎、主权执行 PoC、平台原型',
+                tl3_date: 'Q3 2026', tl3_title: '封闭测试', tl3_desc: '首批专家入驻，市场匹配上线',
+                tl4_title: '公开发布', tl4_desc: '开放市场、通证激励、目标 1,000+ 用户',
+                why_now: '为什么是现在',
+                whynow1_title: '300万+ 技能已发布', whynow1_desc: '海量专家技能免费公开在 GPT Store、Claude 和各 Agent 平台 — 创作者零收入。',
+                whynow2_title: '大模型正在吸收技能', whynow2_desc: '基础模型正在主动训练专家创建的技能和工作流 — 确立所有权的窗口正在迅速关闭。',
+                whynow3_title: 'AI 替代焦虑达到顶峰', whynow3_desc: '各行业对被 AI 替代的恐惧空前高涨 — 专业人士迫切需要保护自身专业技能的工具。',
+                viral_label: '病毒式验证', viral_name: 'AI 替代风险计算器', viral_desc: '评估你的职业技能被 AI 吸收的概率 — 上线后迅速传播，验证了巨大的市场焦虑。',
+                viral_s1: '访问量', viral_s2: '平均停留', viral_s3: '分享率',
+                label_team: '团队', team_title: '由 AI 研究者打造，<br>为知识工作者服务',
+                team_role: '创始人 &amp; CEO',
+                team_bio: '浙江大学 AI 与分布式系统博士候选人。5+ 年机器学习、联邦学习和隐私保护计算研究经验。深刻理解 AI 民主化的挑战。',
+                cpo_role: '联合创始人 &amp; CPO',
+                cpo_bio: '帝国理工学院博士后，浙江大学博士。多模态大模型、视觉语言对齐与基础模型强化学习专家。LLaVA-OneVision-1.5-RL 开源框架核心贡献者。',
+                cto_role: '联合创始人 &amp; CTO',
+                cto_bio: '浙江大学竺可桢学院混合班本科，计算机学院博士。研究方向：模块化大模型训练、混合专家模型、智能体与因果推断。曾在字节跳动、阿里巴巴、网易部署大规模 AI 系统。',
+                key_hires: '计划招聘关键岗位', hire1: '全栈工程师', hire2: '区块链负责人', hire3: '社区负责人',
+                label_competition: '竞争格局',
+                comp_title: '竞争版图',
+                comp_sub: '许多平台允许创作者将专业知识产品化——但没有一家同时具备去中心化主权、仅使用权访问和跨模型开放性。',
+                comp_map_title: '创作者 IP 保护 × 去中心化程度',
+                comp_asof: '截至 2026年2月',
+                axis_x: '中心化 &#8594; 去中心化 / Web3',
+                axis_y: '创作者 IP 保护低 &#8594; 创作者 IP 保护高',
+                comp_q1: '有保护但中心化',
+                comp_q2: '目标区：主权 + 去中心化',
+                comp_q3: '传统平台',
+                comp_q4: '去中心化但 IP 保护弱',
+                comp_node_mindpal: '专业知识 &#8594; AI Agent 市场',
+                comp_node_relevance: '无代码 Agent 构建器 + 市场',
+                comp_node_snet: '去中心化 AI 服务市场',
+                comp_node_ocean: '代币化数据 + 计算到数据',
+                comp_node_fm_title: 'OpenAI · Anthropic · Google',
+                comp_node_modeleco: '基础模型（互补关系）',
+                comp_node_substitute: '自由职业者预算替代',
+                comp_angle_desc: 'democra.ai 独特地将去中心化基础设施与”仅使用权”访问模式结合——买方执行 Skill 但永远看不到源逻辑，创作者保留完整所有权。',
+                comp_legend_direct: '直接竞争：AI Agent/Skill 市场竞争者',
+                comp_legend_substitute: '替代竞争：争夺专家产出的买方预算',
+                comp_legend_coop: '互补关系：基础模型厂商扩大我们的市场',
+                comp_relation_title: '关系拆解',
+                comp_r1_title: '直接竞争：AI Agent/Skill 市场',
+                comp_r1_desc: '中心化平台，创作者将专业知识转化为 AI Agent 并变现。相同命题但无去中心化、无”仅使用权”模式。',
+                comp_r2_title: '直接竞争：去中心化 AI 市场',
+                comp_r2_desc: 'Web3 原生 AI 市场，交易模型和数据。去中心化但聚焦 AI 服务和数据集——而非受保护的专家隐性知识技能。',
+                comp_r3_title: '替代竞争：自由职业平台',
+                comp_r3_desc: '购买专家产出的传统方式。democra.ai 的 Skill 更快、更便宜、全天候可用且无限可扩展——替代按任务雇佣。',
+                comp_r4_title: '互补关系：基础模型',
+                comp_r4_desc: '更强的基础模型增加对专业 Skill 的需求。它们提供能力；我们提供主权与变现。',
+                comp_win_title: 'democra.ai 为什么能赢',
+                comp_win1: '仅使用权访问：买方执行 Skill 但永远看不到源逻辑或提示词。',
+                comp_win2: '去中心化主权：定价权、撤销权、所有权链上归创作者。',
+                comp_win3: '模型无关：支持任何 LLM 提供商——创作者和买方均不被锁定。',
+                comp_sources_hint: '基于各公司产品页面与公告核验，更新时间 2026年2月。',
+                label_financials: '财务', fin_title: '收入模型与预测',
+                rev_streams: '收入来源',
+                rev1_name: '交易手续费', rev1_desc: '每次技能使用 5-15% 佣金',
+                rev2_name: '高级订阅', rev2_desc: '高级分析、优先匹配',
+                rev3_name: '企业 API / SDK', rev3_desc: '企业集成许可',
+                rev4_name: '主权执行费', rev4_desc: '安全计算环境使用费',
+                projections: '三年预测', year1: '第一年', year2: '第二年', year3: '第三年',
+                row_users: '用户数', row_skills: '上架技能数', row_revenue: '收入',
+                metric1: '目标 LTV / CAC — 近乎零的边际交易成本',
+                metric2: '目标毛利率 — 纯软件平台模型',
+                metric3: '综合抽成率 — 在创作者平台中具有竞争力',
+                metric4: '目标盈亏平衡路径 — 精益团队，低消耗',
+                label_investment: '融资', invest_title: '种子前轮融资 $50万',
+                use_of_funds: '资金用途', fund1: '产品开发', fund2: '团队扩张', fund3: '运营', fund4: '法务与合规',
+                milestones: '里程碑',
+                ms1_time: '3 个月', ms1_text: '<strong style="color: var(--text);">MVP 发布</strong> — 首批技能上线，核心市场运行',
+                ms2_time: '6 个月', ms2_text: '<strong style="color: var(--text);">1,000 用户</strong> — 科研、法律、医疗垂直社区',
+                ms3_time: '12 个月', ms3_text: '<strong style="color: var(--text);">种子轮融资</strong> — PMF 验证完成，扩大团队与业务',
+                cta_title: '让我们在 AI 时代夺回技能主权',
+                cta_sub: '我们正在寻找相信知识经济应该掌握在创作者手中的投资人。',
+            }
+        };
+
+        let currentLang = 'en';
+        function toggleLang() {
+            switchLang(currentLang === 'en' ? 'zh' : 'en');
+        }
+        function switchLang(lang) {
+            currentLang = lang;
+            const toggleBtn = document.getElementById('langToggleBtn');
+            if (toggleBtn) toggleBtn.textContent = lang === 'en' ? 'EN' : '中';
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (i18n[lang][key] !== undefined) {
+                    if (el.tagName === 'text') {
+                        el.textContent = i18n[lang][key];
+                    } else {
+                        el.innerHTML = i18n[lang][key];
+                    }
+                }
+            });
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        }
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.slide').forEach(s => {
+            s.style.opacity = '0';
+            s.style.transform = 'translateY(32px)';
+            s.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(s);
+        });
+        // Show first slide immediately
+        document.querySelector('.slide').style.opacity = '1';
+        document.querySelector('.slide').style.transform = 'translateY(0)';
+
+        // Navigation bar
+        const slides = document.querySelectorAll('.slide');
+        const total = slides.length;
+        const progressBar = document.getElementById('progressBar');
+        const curSlideEl = document.getElementById('curSlide');
+        const totalSlidesEl = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const navEl = document.querySelector('.nav');
+        const topBarEl = document.querySelector('.top-bar');
+        const topBarLabel = document.getElementById('topBarLabel');
+        const dotsContainer = document.getElementById('navDots');
+        let currentSlide = 0;
+
+        // Slide labels for top bar (index 0 = cover, hidden)
+        const slideLabels = {
+            en: ['', 'The Problem', 'The Solution', 'Market Size', 'Product', 'Traction', 'Team', 'Competition', 'Financials', 'Investment'],
+            zh: ['', '核心问题', '解决方案', '市场规模', '产品', '发展动力', '团队', '竞争格局', '财务', '融资']
+        };
+
+        totalSlidesEl.textContent = total;
+
+        // Create nav dots
+        for (let i = 0; i < total; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => {
+                slides[i].scrollIntoView({ behavior: 'smooth' });
+            });
+            dotsContainer.appendChild(dot);
+        }
+        const dots = dotsContainer.querySelectorAll('.nav-dot');
+
+        function updateNav(index) {
+            currentSlide = index;
+            progressBar.style.width = ((index + 1) / total * 100) + '%';
+            curSlideEl.textContent = String(index + 1).padStart(2, '0');
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === total - 1;
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+            // Show nav bars on all slides including cover
+            navEl.classList.remove('hidden');
+            topBarEl.classList.remove('hidden');
+            topBarLabel.textContent = slideLabels[currentLang][index] || '';
+        }
+
+        // Update top bar label when language changes
+        const _switchLangOrig = switchLang;
+        window.switchLang = function(lang) {
+            _switchLangOrig(lang);
+            if (currentSlide > 0) {
+                topBarLabel.textContent = slideLabels[lang][currentSlide] || '';
+            }
+        };
+
+        // Track current slide on scroll
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const idx = Array.from(slides).indexOf(e.target);
+                    if (idx !== -1) updateNav(idx);
+                }
+            });
+        }, { threshold: 0.5 });
+        slides.forEach(s => navObserver.observe(s));
+
+        // Prev/Next buttons scroll to adjacent slides
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) slides[currentSlide - 1].scrollIntoView({ behavior: 'smooth' });
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < total - 1) slides[currentSlide + 1].scrollIntoView({ behavior: 'smooth' });
+        });
+
+        updateNav(0);
+
+        /* ---- Architecture diagram arrows (orthogonal only) ---- */
+        function drawArchArrows() {
+            const svg = document.getElementById('archArrows');
+            const flow = document.getElementById('archFlow');
+            const diagram = document.getElementById('archDiagram');
+            if (!svg || !flow || !diagram) return;
+            // Move SVG to diagram level so it can cover web3 too
+            if (svg.parentElement !== diagram) diagram.appendChild(svg);
+            svg.style.position = 'absolute';
+            svg.style.inset = '0';
+            svg.style.width = '100%';
+            svg.style.height = '100%';
+            svg.querySelectorAll('line,polyline,.arch-line').forEach(e => e.remove());
+            const fr = diagram.getBoundingClientRect();
+            const ns = 'http://www.w3.org/2000/svg';
+            // Get element bounds relative to diagram container
+            const q = (sel) => { const el = flow.querySelector(sel); if (!el) return null; const r = el.getBoundingClientRect(); return { cx: r.left + r.width/2 - fr.left, cy: r.top + r.height/2 - fr.top, l: r.left - fr.left, r: r.right - fr.left, t: r.top - fr.top, b: r.bottom - fr.top }; };
+            function makeLine(x1,y1,x2,y2,color,marker,dash) {
+                const line = document.createElementNS(ns,'line');
+                line.setAttribute('x1',x1); line.setAttribute('y1',y1);
+                line.setAttribute('x2',x2); line.setAttribute('y2',y2);
+                line.setAttribute('stroke',color); line.setAttribute('stroke-width','1.5');
+                if (dash) line.setAttribute('stroke-dasharray','5 3');
+                if (marker) line.setAttribute('marker-end','url(#'+marker+')');
+                line.classList.add('arch-line'); svg.appendChild(line);
+            }
+            function biLine(x1,y,x2) {
+                const line = document.createElementNS(ns,'line');
+                line.setAttribute('x1',x1); line.setAttribute('y1',y);
+                line.setAttribute('x2',x2); line.setAttribute('y2',y);
+                line.setAttribute('stroke','#94A3B8'); line.setAttribute('stroke-width','1.5');
+                line.setAttribute('stroke-dasharray','5 3');
+                line.setAttribute('marker-start','url(#ah-gray-r)'); line.setAttribute('marker-end','url(#ah-gray)');
+                line.classList.add('arch-line'); svg.appendChild(line);
+            }
+            const u = q('.arch-user .arch-endpoint-circle');
+            const s = q('.arch-studio');
+            const m = q('.arch-market');
+            const a = q('.arch-agent .arch-endpoint-circle');
+            const t = q('.arch-tee');
+            const c = q('.arch-chain');
+            const wEl = document.getElementById('archWeb3');
+            const w = wEl ? (function(){ const r = wEl.getBoundingClientRect(); return { cx: r.left + r.width/2 - fr.left, cy: r.top + r.height/2 - fr.top, t: r.top - fr.top }; })() : null;
+            if (!u || !s || !m || !a || !t || !c) return;
+            // Horizontal Row 1: User → Studio → Marketplace → Agent
+            makeLine(u.r+2, u.cy, s.l-2, u.cy, '#2563EB', 'ah-blue', true);
+            makeLine(s.r+2, s.cy, m.l-2, s.cy, '#059669', 'ah-green', true);
+            makeLine(m.r+2, a.cy, a.l-2, a.cy, '#6366F1', 'ah-indigo', true);
+            // Vertical: Studio ↓ TEE
+            makeLine(s.cx, s.b+2, s.cx, t.t-2, '#7C3AED', 'ah-purple', true);
+            // Vertical: Marketplace ↓ On-Chain
+            makeLine(m.cx, m.b+2, m.cx, c.t-2, '#DC2626', 'ah-red', true);
+            // Row 2 horizontal: TEE ↔ On-Chain
+            biLine(t.r+2, t.cy, c.l-2);
+            // Down to Web3
+            if (w) {
+                makeLine(t.cx, t.b+2, t.cx, w.t-2, '#7C3AED', 'ah-purple', true);
+                makeLine(c.cx, c.b+2, c.cx, w.t-2, '#DC2626', 'ah-red', true);
+            }
+        }
+        drawArchArrows();
+        window.addEventListener('resize', drawArchArrows);
+
+        /* ---- Market gauge + bar animations on scroll ---- */
+        const mktObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                e.target.querySelectorAll('.mkt-gauge-fill').forEach(circle => {
+                    const offset = circle.getAttribute('data-target');
+                    if (offset) circle.style.strokeDashoffset = offset;
+                });
+                e.target.querySelectorAll('.mkt-bar-fill').forEach(bar => {
+                    const w = bar.getAttribute('data-width');
+                    if (w) bar.style.width = w;
+                });
+                mktObs.unobserve(e.target);
+            });
+        }, { threshold: 0.3 });
+        const mktEl = document.getElementById('mktDrivers');
+        if (mktEl) mktObs.observe(mktEl);
+
+    </script>
+</body>
+</html>
