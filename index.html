@@ -38,7 +38,7 @@
             --content-max: 1060px;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
         html, body {
             width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto;
             background: var(--bg); color: var(--text);
@@ -871,17 +871,6 @@
         }
         .top-bar-lang .lang-toggle-btn:hover { color: var(--primary); opacity: 0.9; }
 
-        /* Print */
-        @media print {
-            .atmos, .dot-grid, .progress, .nav, .top-bar { display: none !important; }
-            .deck { display: block; position: static; }
-            .slide {
-                position: static !important; opacity: 1 !important; transform: none !important;
-                visibility: visible !important; pointer-events: auto !important;
-                page-break-after: always; height: auto; min-height: 100vh; padding: 48px;
-            }
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .solution-layout, .market-layout,
@@ -916,6 +905,124 @@
             .cover-founders { flex-direction: column; gap: 12px; }
             .hires-grid { grid-template-columns: 1fr; }
         }
+        /* ========== PRINT / PDF ========== */
+        @media print {
+            @page { size: 1280px 720px; margin: 0; }
+            html, body { overflow: visible !important; width: 1280px !important; }
+            .atmos, .dot-grid, .nav, .top-bar, .progress { display: none !important; }
+            .deck { position: static !important; display: block !important; }
+            .slide {
+                position: relative !important; opacity: 1 !important; transform: none !important;
+                visibility: visible !important; pointer-events: auto !important;
+                width: 1280px !important; height: 720px !important;
+                min-height: 0 !important; max-height: 720px !important;
+                page-break-after: always; break-after: page;
+                page-break-inside: avoid; break-inside: avoid;
+                padding: 28px 36px !important;
+                overflow: hidden !important;
+                display: flex; align-items: center; justify-content: center;
+            }
+            .slide:last-child { page-break-after: auto; }
+            .slide-inner { max-width: 1060px; }
+
+            /* Scale down typography */
+            h2 { font-size: 28px !important; margin-bottom: 6px !important; }
+            .label { font-size: 11px !important; margin-bottom: 8px !important; }
+            .sub { font-size: 14px !important; }
+            .small { font-size: 12px !important; }
+            h3 { font-size: 14px !important; }
+
+            /* Scale down cards & spacing */
+            .card { padding: 16px !important; border-radius: 12px !important; }
+            .card:hover, .mkt-card:hover, .traction-stat:hover, .arch-card:hover {
+                transform: none !important; box-shadow: var(--shadow-sm) !important;
+            }
+
+            /* Cover slide */
+            .slide[data-slide="0"] h1 { font-size: 42px !important; }
+
+            /* Problem slide */
+            .problem-pipeline { gap: 0 !important; }
+            .pipeline-stage { padding: 10px !important; }
+            .problem-impact-bar { margin-top: 12px !important; }
+            .impact-segment { padding: 10px !important; }
+
+            /* Solution slide */
+            .solution-layout { gap: 20px !important; }
+            .layer-stack { gap: 6px !important; }
+            .layer { padding: 10px 16px !important; }
+
+            /* Market slide */
+            .market-layout { gap: 16px !important; }
+            .mkt-card { padding: 12px !important; gap: 12px !important; }
+            .mkt-icon { width: 36px !important; height: 36px !important; min-width: 36px !important; }
+
+            /* Product slide */
+            .flow-steps { margin-bottom: 12px !important; }
+            .flow-step { padding: 10px 8px !important; }
+            .flow-num { width: 28px !important; height: 28px !important; font-size: 13px !important; }
+            .flow-title { font-size: 13px !important; }
+            .flow-desc { font-size: 11px !important; }
+            .arch-diagram { margin-top: 8px !important; }
+            .arch-flow { gap: 10px !important; }
+            .arch-card { padding: 10px !important; gap: 8px !important; }
+            .icon-box { width: 32px !important; height: 32px !important; min-width: 32px !important; }
+            .web3-foundation { padding: 10px 14px !important; margin-top: 8px !important; }
+            .web3-tag { font-size: 11px !important; padding: 3px 8px !important; }
+
+            /* Traction slide */
+            .traction-layout { gap: 20px !important; }
+            .timeline-item { padding-bottom: 10px !important; }
+            .timeline-content { padding-bottom: 0 !important; }
+            .timeline-title { font-size: 13px !important; }
+            .timeline-desc { font-size: 11px !important; }
+            .timeline-date { font-size: 11px !important; }
+            .whynow-item { padding: 8px !important; gap: 8px !important; }
+            .whynow-icon { width: 28px !important; height: 28px !important; min-width: 28px !important; }
+            .whynow-title { font-size: 13px !important; }
+            .whynow-desc { font-size: 11px !important; line-height: 1.4 !important; }
+            .whynow-num { font-size: 9px !important; }
+            .viral-highlight { margin-top: 10px !important; }
+            .viral-card { padding: 10px !important; }
+            .viral-name { font-size: 13px !important; }
+            .viral-desc { font-size: 11px !important; }
+
+            /* Team slide */
+            .team-grid { gap: 16px !important; }
+            .team-avatar-lg { width: 48px !important; height: 48px !important; font-size: 16px !important; }
+            .team-bio { font-size: 12px !important; line-height: 1.45 !important; }
+
+            /* Competition slide */
+            .comp-layout { gap: 16px !important; }
+            .comp-map-card { padding: 12px !important; }
+            .comp-map-head { margin-bottom: 4px !important; }
+            .comp-map-title { font-size: 13px !important; }
+            .comp-legend { margin-top: 4px !important; gap: 6px !important; }
+            .comp-legend-item { font-size: 10px !important; }
+            .comp-rel-card { padding: 6px 10px !important; margin-bottom: 6px !important; }
+            .comp-rel-title { font-size: 12px !important; }
+            .comp-rel-desc { font-size: 11px !important; }
+            .comp-win-card { padding: 10px !important; }
+            .comp-win-item { font-size: 11px !important; padding-left: 14px !important; }
+            .comp-section-title { font-size: 12px !important; }
+            .comp-angle-desc, .comp-map-card > .xs { font-size: 10px !important; line-height: 1.4 !important; }
+
+            /* Financials slide */
+            .fin-layout { gap: 20px !important; }
+            .revenue-item { padding: 8px 10px !important; margin-bottom: 6px !important; }
+            .revenue-pct { font-size: 16px !important; width: 36px !important; }
+            .revenue-name { font-size: 13px !important; }
+            .revenue-desc { font-size: 11px !important; }
+            .fin-table th, .fin-table td { padding: 6px 10px !important; font-size: 12px !important; }
+            .fin-metric-row { margin-top: 12px !important; gap: 12px !important; }
+            .fin-metric { padding: 10px !important; }
+            .fin-metric-num { font-size: 22px !important; }
+            .fin-metric-label { font-size: 11px !important; }
+
+            /* Investment slide */
+            .ask-layout { gap: 20px !important; }
+            .use-item { padding: 10px !important; }
+        }
     </style>
 </head>
 <body>
@@ -938,7 +1045,7 @@
                         <span class="founder-role" data-i18n="role_ceo">CEO</span>
                     </div>
                 </div>
-                <div class="cover-meta">tao.shen@democra.ai &middot; @tao_shen</div>
+                <div class="cover-meta">tao.shen@democra.ai &middot; @tao_shen_</div>
             </div>
         </div>
 
@@ -1401,8 +1508,8 @@
                                 <div class="timeline-dot-wrap"><div class="timeline-dot done"></div></div>
                                 <div class="timeline-content">
                                     <div class="timeline-date" data-i18n="tl2b_date">Q1 2026</div>
-                                    <div class="timeline-title" data-i18n="tl2b_title">Viral Campaign Launch</div>
-                                    <div class="timeline-desc" data-i18n="tl2b_desc">AI Replacement Risk Calculator went viral — validated massive market anxiety</div>
+                                    <div class="timeline-title" data-i18n="tl2b_title">AIR Campaign Launch</div>
+                                    <div class="timeline-desc" data-i18n="tl2b_desc">AI Replacement Risk Calculator — raised privacy awareness and validated market anxiety</div>
                                 </div>
                             </div>
                             <div class="timeline-item">
@@ -1476,29 +1583,15 @@
                         <!-- Viral validation highlight -->
                         <div class="viral-highlight" style="margin-top: 18px;">
                             <div style="font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px;"
-                                data-i18n="viral_label">Viral Validation</div>
+                                data-i18n="viral_label">Privacy Awareness Campaign</div>
                             <div class="viral-card">
                                 <div class="viral-card-inner">
                                     <div class="viral-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                                     </div>
                                     <div class="viral-info">
-                                        <div class="viral-name" data-i18n="viral_name">AI Replacement Risk Calculator</div>
-                                        <div class="viral-desc" data-i18n="viral_desc">Gauges how likely your job skills are to be absorbed by AI — went viral and proved massive market anxiety.</div>
-                                    </div>
-                                </div>
-                                <div class="viral-stats">
-                                    <div class="viral-stat">
-                                        <div class="viral-stat-val">50K+</div>
-                                        <div class="viral-stat-label" data-i18n="viral_s1">Visitors</div>
-                                    </div>
-                                    <div class="viral-stat">
-                                        <div class="viral-stat-val">3.2min</div>
-                                        <div class="viral-stat-label" data-i18n="viral_s2">Avg. Session</div>
-                                    </div>
-                                    <div class="viral-stat">
-                                        <div class="viral-stat-val">12%</div>
-                                        <div class="viral-stat-label" data-i18n="viral_s3">Share Rate</div>
+                                        <div class="viral-name" data-i18n="viral_name">AIR — AI Replacement Risk Calculator</div>
+                                        <div class="viral-desc" data-i18n="viral_desc">A tool to raise awareness about AI privacy risks — shows how easily your professional skills can be replicated, urging knowledge workers to protect their expertise.</div>
                                     </div>
                                 </div>
                             </div>
@@ -1550,7 +1643,7 @@
             <div class="slide-inner">
                 <div class="label" data-i18n="label_competition">Competition</div>
                 <h2 data-i18n="comp_title">Competitive Landscape</h2>
-                <p class="sub" style="max-width: 760px;" data-i18n="comp_sub">Many platforms let creators package expertise — none combine decentralized sovereignty, usage-rights-only access, and cross-model openness.</p>
+                <p class="sub" style="max-width: 760px;" data-i18n="comp_sub">Skill-as-asset is emerging across AI and Web3 — but no one combines bidirectional privacy, decentralized ownership, and a unified market for both AI and human skills.</p>
                 <div class="comp-layout">
                     <div class="comp-map-card">
                         <div class="comp-map-head">
@@ -1577,106 +1670,56 @@
                             <text x="324" y="306" font-family="Inter,sans-serif" font-size="9.5" fill="#94A3B8" data-i18n="comp_q4">Decentralized, low IP protection</text>
 
                             <!-- Relationship lines from democra.ai -->
-                            <!-- Direct lines (red solid) -->
-                            <line x1="434" y1="72" x2="175" y2="130" stroke="#DC2626" stroke-width="1.5"/>
-                            <line x1="434" y1="72" x2="188" y2="185" stroke="#DC2626" stroke-width="1.5"/>
-                            <line x1="434" y1="72" x2="395" y2="195" stroke="#DC2626" stroke-width="1.5"/>
-                            <line x1="434" y1="72" x2="405" y2="255" stroke="#DC2626" stroke-width="1.5"/>
-                            <!-- Substitute lines (amber dashed) -->
-                            <line x1="434" y1="72" x2="140" y2="265" stroke="#D97706" stroke-width="1.5" stroke-dasharray="6 4"/>
-                            <!-- Complementary lines (blue dotted) -->
-                            <line x1="434" y1="72" x2="300" y2="240" stroke="#2563EB" stroke-width="1.5" stroke-dasharray="2 4"/>
+                            <!-- Direct line (red solid) - to SkillMarket -->
+                            <line x1="434" y1="110" x2="370" y2="190" stroke="#DC2626" stroke-width="1.5"/>
+                            <!-- Substitute line (amber dashed) - to Upwork/Fiverr -->
+                            <line x1="434" y1="110" x2="160" y2="250" stroke="#D97706" stroke-width="1.5" stroke-dasharray="6 4"/>
+                            <!-- Complementary line (blue dotted) - to OpenAI -->
+                            <line x1="434" y1="110" x2="200" y2="140" stroke="#2563EB" stroke-width="1.5" stroke-dasharray="2 4"/>
 
-                            <!-- Direct: MindPal (centralized, expertise->agent, some IP) -->
-                            <rect x="100" y="112" width="150" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
-                            <text x="175" y="131" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">MindPal</text>
-                            <text x="175" y="146" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_mindpal">Expertise &#8594; AI agent marketplace</text>
-
-                            <!-- Direct: Relevance AI (centralized, agent marketplace) -->
-                            <rect x="108" y="168" width="160" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
-                            <text x="188" y="187" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">Relevance AI</text>
-                            <text x="188" y="202" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_relevance">No-code agent builder + marketplace</text>
-
-                            <!-- Direct: SingularityNET (decentralized, AI services) -->
-                            <rect x="330" y="178" width="130" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
-                            <text x="395" y="197" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">SingularityNET</text>
-                            <text x="395" y="212" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_snet">Decentralized AI service market</text>
-
-                            <!-- Direct: Ocean Protocol (decentralized, data, compute-to-data) -->
-                            <rect x="340" y="238" width="130" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
-                            <text x="405" y="257" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">Ocean Protocol</text>
-                            <text x="405" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_ocean">Tokenized data + compute-to-data</text>
+                            <!-- Direct: SkillMarket.space -->
+                            <rect x="300" y="170" width="146" height="44" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
+                            <text x="373" y="189" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#B91C1C">SkillMarket.space</text>
+                            <text x="373" y="204" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#991B1B" data-i18n="comp_node_skillmarket">Tokenized AI skill market (Solana)</text>
 
                             <!-- Substitute: Upwork / Fiverr -->
-                            <rect x="82" y="246" width="118" height="44" rx="10" fill="#FFFBEB" stroke="#FCD34D" stroke-width="1.2"/>
-                            <text x="141" y="265" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#92400E">Upwork · Fiverr</text>
-                            <text x="141" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#B45309" data-i18n="comp_node_substitute">Freelancer budget substitute</text>
+                            <rect x="92" y="230" width="136" height="44" rx="10" fill="#FFFBEB" stroke="#FCD34D" stroke-width="1.2"/>
+                            <text x="160" y="249" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#92400E">Upwork · Fiverr</text>
+                            <text x="160" y="264" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#B45309" data-i18n="comp_node_substitute">No IP protection, manual delivery</text>
 
-                            <!-- Complementary: Foundation models -->
-                            <rect x="224" y="222" width="152" height="44" rx="10" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1.2"/>
-                            <text x="300" y="241" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#6D28D9" data-i18n="comp_node_fm_title">OpenAI · Anthropic · Google</text>
-                            <text x="300" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#7C3AED" data-i18n="comp_node_modeleco">Foundation models (complementary)</text>
+                            <!-- Complementary: OpenAI -->
+                            <rect x="110" y="118" width="180" height="44" rx="10" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1.2"/>
+                            <text x="200" y="137" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700" fill="#6D28D9" data-i18n="comp_node_fm_title">OpenAI · Anthropic · Google</text>
+                            <text x="200" y="152" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#7C3AED" data-i18n="comp_node_modeleco">Foundation models (complementary)</text>
 
                             <!-- democra.ai (top-right: high IP + decentralized) -->
-                            <circle cx="434" cy="72" r="34" fill="#EFF6FF" stroke="#2563EB" stroke-width="2.8"/>
-                            <text x="434" y="68" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="800" fill="#2563EB">democra</text>
-                            <text x="434" y="84" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="800" fill="#059669">.ai</text>
+                            <circle cx="434" cy="110" r="44" fill="#EFF6FF" stroke="#2563EB" stroke-width="2.8"/>
+                            <text x="434" y="108" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="13" font-weight="800" fill="#2563EB">democra.ai</text>
                         </svg>
-                        <div class="xs" style="margin-top: 8px;" data-i18n="comp_angle_desc">democra.ai uniquely combines decentralized infrastructure with usage-rights-only access — buyers execute Skills without seeing source logic, and creators retain full ownership.</div>
-                        <div class="comp-legend">
-                            <div class="comp-legend-item"><span class="comp-legend-line direct"></span><span data-i18n="comp_legend_direct">Direct: AI agent/skill marketplace competitors</span></div>
-                            <div class="comp-legend-item"><span class="comp-legend-line substitute"></span><span data-i18n="comp_legend_substitute">Substitute: compete for expert-output buyer budgets</span></div>
-                            <div class="comp-legend-item"><span class="comp-legend-line coop"></span><span data-i18n="comp_legend_coop">Complementary: foundation model vendors expand our market</span></div>
-                        </div>
                     </div>
                     <div class="comp-side">
-                        <div class="comp-section-title" data-i18n="comp_relation_title">Relationship Breakdown</div>
-
-                        <div class="comp-rel-card direct">
-                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r1_title">Direct: AI Agent/Skill Marketplaces</span></div>
-                            <div class="comp-rel-desc" data-i18n="comp_r1_desc">Centralized platforms where creators turn expertise into AI agents and monetize them. Same thesis but no decentralization, no usage-rights-only model.</div>
-                            <div class="comp-rel-tags">
-                                <span class="comp-rel-tag">MindPal</span>
-                                <span class="comp-rel-tag">Relevance AI</span>
-                            </div>
+                        <div class="comp-rel-card direct" style="padding: 8px 12px;">
+                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r1_title">SkillMarket.space</span></div>
+                            <div class="comp-rel-desc" data-i18n="comp_r1_desc">Tokenized AI skill market — AI-only, no human expertise, no privacy protection</div>
                         </div>
 
-                        <div class="comp-rel-card direct">
-                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r2_title">Direct: Decentralized AI Marketplaces</span></div>
-                            <div class="comp-rel-desc" data-i18n="comp_r2_desc">Web3-native AI marketplaces for models and data. Decentralized but focused on AI services and datasets — not expert tacit knowledge as protected skills.</div>
-                            <div class="comp-rel-tags">
-                                <span class="comp-rel-tag">SingularityNET</span>
-                                <span class="comp-rel-tag">Ocean Protocol</span>
-                            </div>
+                        <div class="comp-rel-card substitute" style="padding: 8px 12px;">
+                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r3_title">Upwork · Fiverr</span></div>
+                            <div class="comp-rel-desc" data-i18n="comp_r3_desc">Manual delivery, zero IP protection, no AI integration</div>
                         </div>
 
-                        <div class="comp-rel-card substitute">
-                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r3_title">Substitute: Freelancer Platforms</span></div>
-                            <div class="comp-rel-desc" data-i18n="comp_r3_desc">The traditional way to buy expert output. democra.ai Skills are faster, cheaper, 24/7 available, and infinitely scalable — replacing per-task hiring.</div>
-                            <div class="comp-rel-tags">
-                                <span class="comp-rel-tag">Upwork</span>
-                                <span class="comp-rel-tag">Fiverr</span>
-                            </div>
-                        </div>
-
-                        <div class="comp-rel-card coop">
-                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r4_title">Complementary: Foundation Models</span></div>
-                            <div class="comp-rel-desc" data-i18n="comp_r4_desc">Better base models increase demand for specialized Skills. They provide capability; we provide sovereignty and monetization.</div>
-                            <div class="comp-rel-tags">
-                                <span class="comp-rel-tag">OpenAI</span>
-                                <span class="comp-rel-tag">Anthropic</span>
-                                <span class="comp-rel-tag">Google</span>
-                            </div>
+                        <div class="comp-rel-card coop" style="padding: 8px 12px;">
+                            <div class="comp-rel-title"><span class="comp-rel-dot"></span><span data-i18n="comp_r4_title">OpenAI · Anthropic · Google</span></div>
+                            <div class="comp-rel-desc" data-i18n="comp_r4_desc">Foundation model providers — complementary, expand our addressable market</div>
                         </div>
 
                         <div class="comp-win-card">
                             <div class="comp-section-title" style="margin: 0;" data-i18n="comp_win_title">Why democra.ai Wins</div>
                             <div class="comp-win-list">
-                                <div class="comp-win-item" data-i18n="comp_win1">Usage-rights-only: buyers execute Skills without ever seeing source logic or prompts.</div>
-                                <div class="comp-win-item" data-i18n="comp_win2">Decentralized sovereignty: pricing, revocation, and ownership stay with creators on-chain.</div>
-                                <div class="comp-win-item" data-i18n="comp_win3">Model-agnostic: works with any LLM provider — no platform lock-in for creators or buyers.</div>
+                                <div class="comp-win-item" data-i18n="comp_win1">Bidirectional privacy — seller logic &amp; buyer data both protected, only results delivered</div>
+                                <div class="comp-win-item" data-i18n="comp_win2">On-chain sovereignty — pricing, revocation, ownership stay with creators</div>
+                                <div class="comp-win-item" data-i18n="comp_win3">AI + Human unified — one marketplace, model-agnostic, no lock-in</div>
                             </div>
-                            <div class="xs" style="margin-top: 8px;" data-i18n="comp_sources_hint">Company pages and product announcements, checked Feb 2026.</div>
                         </div>
                     </div>
                 </div>
@@ -1782,7 +1825,7 @@
         <div class="slide" data-slide="9">
             <div class="slide-inner">
                 <div class="label" data-i18n="label_investment">Investment</div>
-                <h2 data-i18n="invest_title">Raising $500K Pre-Seed</h2>
+                <h2 data-i18n="invest_title">Pre-Seed Round</h2>
                 <div class="ask-layout">
                     <div>
                         <h3 style="margin-bottom: 14px;" data-i18n="use_of_funds">Use of Funds</h3>
@@ -1839,7 +1882,7 @@
                         </a>
                         <a class="contact-link" href="https://x.com/tao_shen_">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
-                            @tao_shen
+                            @tao_shen_
                         </a>
                         <a class="contact-link" href="https://t.me/taoshen1">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
@@ -1938,7 +1981,7 @@
                 traction_sub: 'Validated the problem, built the product, and launched viral campaigns to prove market demand.',
                 dev_timeline: 'Development Timeline',
                 tl1_title: 'Market Research', tl1_desc: 'Expert interviews, competitive analysis, architecture design',
-                tl2b_date: 'Q1 2026', tl2b_title: 'Viral Campaign Launch', tl2b_desc: 'AI Replacement Risk Calculator went viral — validated massive market anxiety',
+                tl2b_date: 'Q1 2026', tl2b_title: 'AIR Campaign Launch', tl2b_desc: 'AI Replacement Risk Calculator — raised privacy awareness and validated market anxiety',
                 tl2_date: 'Q1–Q2 2026 — Now', tl2_title: 'Building MVP', tl2_desc: 'Core Skill packaging engine, sovereign execution PoC, platform prototype',
                 tl3_date: 'Q3 2026', tl3_title: 'Closed Beta', tl3_desc: 'First experts onboarded, marketplace matching live',
                 tl4_title: 'Public Launch', tl4_desc: 'Open marketplace, token incentives, 1,000+ users target',
@@ -1946,8 +1989,7 @@
                 whynow1_title: '3M+ Skills Already Published', whynow1_desc: 'Massive volume of expert skills freely available on GPT Store, Claude, and agent platforms — with zero creator compensation.',
                 whynow2_title: 'LLMs Are Absorbing Skills Now', whynow2_desc: 'Foundation models are actively training on expert-created skills and workflows — the window to establish ownership is closing fast.',
                 whynow3_title: 'Peak AI Replacement Anxiety', whynow3_desc: 'Industry-wide fear of being replaced by AI is at an all-time high — professionals urgently need tools to protect their expertise.',
-                viral_label: 'Viral Validation', viral_name: 'AI Replacement Risk Calculator', viral_desc: 'Gauges how likely your job skills are to be absorbed by AI — went viral and proved massive market anxiety.',
-                viral_s1: 'Visitors', viral_s2: 'Avg. Session', viral_s3: 'Share Rate',
+                viral_label: 'Privacy Awareness Campaign', viral_name: 'AIR — AI Replacement Risk Calculator', viral_desc: 'A tool to raise awareness about AI privacy risks — shows how easily your professional skills can be replicated, urging knowledge workers to protect their expertise.',
                 label_team: 'Team', team_title: 'Built by AI Researchers,<br>for Knowledge Workers',
                 team_role: 'Founder &amp; CEO',
                 team_bio: 'Zhejiang University PhD candidate in AI &amp; Distributed Systems. 5+ years of research in ML, federated learning, and privacy-preserving computation. Deep understanding of AI democratization challenges.',
@@ -1958,40 +2000,38 @@
                 key_hires: 'Key Hires Planned', hire1: 'Full-Stack Engineer', hire2: 'Blockchain Lead', hire3: 'Community Lead',
                 label_competition: 'Competition',
                 comp_title: 'Competitive Landscape',
-                comp_sub: 'Many platforms let creators package expertise — none combine decentralized sovereignty, usage-rights-only access, and cross-model openness.',
+                comp_sub: 'Skill-as-asset is emerging across AI and Web3 — but no one combines bidirectional privacy, decentralized ownership, and a unified market for both AI and human skills.',
                 comp_map_title: 'Creator IP Protection × Decentralization',
-                comp_asof: 'As of February 2026',
+                comp_asof: 'As of March 2026',
                 axis_x: 'Centralized &#8594; Decentralized / Web3',
                 axis_y: 'Low Creator IP Protection &#8594; High Creator IP Protection',
                 comp_q1: 'Protected but centralized',
                 comp_q2: 'Target zone: sovereign + decentralized',
                 comp_q3: 'Traditional platforms',
                 comp_q4: 'Decentralized, low IP protection',
-                comp_node_mindpal: 'Expertise &#8594; AI agent marketplace',
-                comp_node_relevance: 'No-code agent builder + marketplace',
-                comp_node_snet: 'Decentralized AI service market',
-                comp_node_ocean: 'Tokenized data + compute-to-data',
+                comp_node_skillmarket: 'Tokenized AI skill market (Solana)',
+                comp_node_recall: 'AI skill ranking + curation market',
+                comp_node_dase: 'Skill token + credential protocols',
+                comp_node_talent: 'Reputation + skill verification',
                 comp_node_fm_title: 'OpenAI · Anthropic · Google',
                 comp_node_modeleco: 'Foundation models (complementary)',
-                comp_node_substitute: 'Freelancer budget substitute',
-                comp_angle_desc: 'democra.ai uniquely combines decentralized infrastructure with usage-rights-only access — buyers execute Skills without seeing source logic, and creators retain full ownership.',
-                comp_legend_direct: 'Direct: AI agent/skill marketplace competitors',
+                comp_node_substitute: 'No IP protection, manual delivery',
+                comp_angle_desc: 'democra.ai is the only platform with bidirectional privacy — seller logic and buyer data both stay protected, only results are exchanged — plus on-chain ownership for creators.',
+                comp_legend_direct: 'Direct: tokenized skill market &amp; skill protocol competitors',
                 comp_legend_substitute: 'Substitute: compete for expert-output buyer budgets',
                 comp_legend_coop: 'Complementary: foundation model vendors expand our market',
-                comp_relation_title: 'Relationship Breakdown',
-                comp_r1_title: 'Direct: AI Agent/Skill Marketplaces',
-                comp_r1_desc: 'Centralized platforms where creators turn expertise into AI agents and monetize them. Same thesis but no decentralization, no usage-rights-only model.',
-                comp_r2_title: 'Direct: Decentralized AI Marketplaces',
-                comp_r2_desc: 'Web3-native AI marketplaces for models and data. Decentralized but focused on AI services and datasets — not expert tacit knowledge as protected skills.',
-                comp_r3_title: 'Substitute: Freelancer Platforms',
-                comp_r3_desc: 'The traditional way to buy expert output. democra.ai Skills are faster, cheaper, 24/7 available, and infinitely scalable — replacing per-task hiring.',
-                comp_r4_title: 'Complementary: Foundation Models',
-                comp_r4_desc: 'Better base models increase demand for specialized Skills. They provide capability; we provide sovereignty and monetization.',
+                comp_r1_title: 'Tokenized AI Skill Markets',
+                comp_r1_desc: 'SkillMarket.space &amp; Recall — AI-only, no human expertise, no privacy',
+                comp_r2_title: 'Skill Tokenization Protocols',
+                comp_r2_desc: 'DASE, Skillchain, Talent Protocol — still PoC stage, no live market',
+                comp_r3_title: 'Freelancer Platforms',
+                comp_r3_desc: 'Fiverr, Upwork — manual delivery, zero IP protection',
+                comp_r4_title: 'Foundation Models',
+                comp_r4_desc: 'OpenAI, Anthropic, Google — complementary, expand our market',
                 comp_win_title: 'Why democra.ai Wins',
-                comp_win1: 'Usage-rights-only: buyers execute Skills without ever seeing source logic or prompts.',
-                comp_win2: 'Decentralized sovereignty: pricing, revocation, and ownership stay with creators on-chain.',
-                comp_win3: 'Model-agnostic: works with any LLM provider — no platform lock-in for creators or buyers.',
-                comp_sources_hint: 'Company pages and product announcements, checked Feb 2026.',
+                comp_win1: 'Bidirectional privacy — seller logic &amp; buyer data both protected, only results delivered',
+                comp_win2: 'On-chain sovereignty — pricing, revocation, ownership stay with creators',
+                comp_win3: 'AI + Human unified — one marketplace, model-agnostic, no lock-in',
                 label_financials: 'Financials', fin_title: 'Revenue Model &amp; Projections',
                 rev_streams: 'Revenue Streams',
                 rev1_name: 'Transaction Fees', rev1_desc: '5-15% commission per skill usage',
@@ -2004,7 +2044,7 @@
                 metric2: 'Target gross margin — software-only platform model',
                 metric3: 'Blended take rate — competitive for creator platforms',
                 metric4: 'Target path to breakeven — lean team, low burn',
-                label_investment: 'Investment', invest_title: 'Raising $500K Pre-Seed',
+                label_investment: 'Investment', invest_title: 'Pre-Seed Round',
                 use_of_funds: 'Use of Funds', fund1: 'Product Development', fund2: 'Team Expansion', fund3: 'Operations', fund4: 'Legal &amp; Compliance',
                 milestones: 'Milestones',
                 ms1_time: '3 Months', ms1_text: '<strong style="color: var(--text);">MVP Launch</strong> — First Skills listed, core marketplace live',
@@ -2068,7 +2108,7 @@
                 traction_sub: '验证了问题、构建了产品，并通过爆款营销证明了市场需求。',
                 dev_timeline: '开发时间线',
                 tl1_title: '市场调研', tl1_desc: '专家访谈、竞品分析、架构设计',
-                tl2b_date: 'Q1 2026', tl2b_title: '爆款营销上线', tl2b_desc: 'AI 替代风险计算器爆火 — 验证了巨大的市场焦虑',
+                tl2b_date: 'Q1 2026', tl2b_title: 'AIR 上线', tl2b_desc: 'AI 替代风险计算器 — 唤醒隐私保护意识，验证市场焦虑',
                 tl2_date: 'Q1–Q2 2026 — 当前', tl2_title: '构建 MVP', tl2_desc: '核心 Skill 封装引擎、主权执行 PoC、平台原型',
                 tl3_date: 'Q3 2026', tl3_title: '封闭测试', tl3_desc: '首批专家入驻，市场匹配上线',
                 tl4_title: '公开发布', tl4_desc: '开放市场、通证激励、目标 1,000+ 用户',
@@ -2076,8 +2116,7 @@
                 whynow1_title: '300万+ 技能已发布', whynow1_desc: '海量专家技能免费公开在 GPT Store、Claude 和各 Agent 平台 — 创作者零收入。',
                 whynow2_title: '大模型正在吸收技能', whynow2_desc: '基础模型正在主动训练专家创建的技能和工作流 — 确立所有权的窗口正在迅速关闭。',
                 whynow3_title: 'AI 替代焦虑达到顶峰', whynow3_desc: '各行业对被 AI 替代的恐惧空前高涨 — 专业人士迫切需要保护自身专业技能的工具。',
-                viral_label: '病毒式验证', viral_name: 'AI 替代风险计算器', viral_desc: '评估你的职业技能被 AI 吸收的概率 — 上线后迅速传播，验证了巨大的市场焦虑。',
-                viral_s1: '访问量', viral_s2: '平均停留', viral_s3: '分享率',
+                viral_label: '隐私意识唤醒', viral_name: 'AIR — AI 替代风险计算器', viral_desc: '唤醒知识工作者对 AI 隐私风险的意识——展示你的专业技能多容易被复制，呼吁大家主动保护自己的专业知识。',
                 label_team: '团队', team_title: '由 AI 研究者打造，<br>为知识工作者服务',
                 team_role: '创始人 &amp; CEO',
                 team_bio: '浙江大学 AI 与分布式系统博士候选人。5+ 年机器学习、联邦学习和隐私保护计算研究经验。深刻理解 AI 民主化的挑战。',
@@ -2088,40 +2127,38 @@
                 key_hires: '计划招聘关键岗位', hire1: '全栈工程师', hire2: '区块链负责人', hire3: '社区负责人',
                 label_competition: '竞争格局',
                 comp_title: '竞争版图',
-                comp_sub: '许多平台允许创作者将专业知识产品化——但没有一家同时具备去中心化主权、仅使用权访问和跨模型开放性。',
+                comp_sub: '”技能即资产”已在 AI 和 Web3 领域涌现——但没有一家同时做到双向隐私保护、去中心化确权和 AI+人类技能统一市场。',
                 comp_map_title: '创作者 IP 保护 × 去中心化程度',
-                comp_asof: '截至 2026年2月',
+                comp_asof: '截至 2026年3月',
                 axis_x: '中心化 &#8594; 去中心化 / Web3',
                 axis_y: '创作者 IP 保护低 &#8594; 创作者 IP 保护高',
                 comp_q1: '有保护但中心化',
                 comp_q2: '目标区：主权 + 去中心化',
                 comp_q3: '传统平台',
                 comp_q4: '去中心化但 IP 保护弱',
-                comp_node_mindpal: '专业知识 &#8594; AI Agent 市场',
-                comp_node_relevance: '无代码 Agent 构建器 + 市场',
-                comp_node_snet: '去中心化 AI 服务市场',
-                comp_node_ocean: '代币化数据 + 计算到数据',
+                comp_node_skillmarket: '代币化 AI 技能市场（Solana）',
+                comp_node_recall: 'AI 技能排名 + 策展市场',
+                comp_node_dase: '技能代币 + 凭证协议',
+                comp_node_talent: '声誉 + 技能验证',
                 comp_node_fm_title: 'OpenAI · Anthropic · Google',
                 comp_node_modeleco: '基础模型（互补关系）',
-                comp_node_substitute: '自由职业者预算替代',
-                comp_angle_desc: 'democra.ai 独特地将去中心化基础设施与”仅使用权”访问模式结合——买方执行 Skill 但永远看不到源逻辑，创作者保留完整所有权。',
-                comp_legend_direct: '直接竞争：AI Agent/Skill 市场竞争者',
+                comp_node_substitute: '无 IP 保护，人工交付',
+                comp_angle_desc: 'democra.ai 是唯一实现双向隐私的平台——卖方逻辑和买方数据均受保护，只交付结果——同时创作者享有链上所有权。',
+                comp_legend_direct: '直接竞争：代币化技能市场与技能协议',
                 comp_legend_substitute: '替代竞争：争夺专家产出的买方预算',
                 comp_legend_coop: '互补关系：基础模型厂商扩大我们的市场',
-                comp_relation_title: '关系拆解',
-                comp_r1_title: '直接竞争：AI Agent/Skill 市场',
-                comp_r1_desc: '中心化平台，创作者将专业知识转化为 AI Agent 并变现。相同命题但无去中心化、无”仅使用权”模式。',
-                comp_r2_title: '直接竞争：去中心化 AI 市场',
-                comp_r2_desc: 'Web3 原生 AI 市场，交易模型和数据。去中心化但聚焦 AI 服务和数据集——而非受保护的专家隐性知识技能。',
-                comp_r3_title: '替代竞争：自由职业平台',
-                comp_r3_desc: '购买专家产出的传统方式。democra.ai 的 Skill 更快、更便宜、全天候可用且无限可扩展——替代按任务雇佣。',
-                comp_r4_title: '互补关系：基础模型',
-                comp_r4_desc: '更强的基础模型增加对专业 Skill 的需求。它们提供能力；我们提供主权与变现。',
+                comp_r1_title: '代币化 AI 技能市场',
+                comp_r1_desc: 'SkillMarket.space、Recall — 仅 AI 模块，无人类技能，无隐私保护',
+                comp_r2_title: '技能代币化协议',
+                comp_r2_desc: 'DASE、Skillchain、Talent Protocol — 仍在 PoC 阶段，无正式市场',
+                comp_r3_title: '自由职业平台',
+                comp_r3_desc: 'Fiverr、Upwork — 人工交付，零 IP 保护',
+                comp_r4_title: '基础模型',
+                comp_r4_desc: 'OpenAI、Anthropic、Google — 互补关系，扩大市场',
                 comp_win_title: 'democra.ai 为什么能赢',
-                comp_win1: '仅使用权访问：买方执行 Skill 但永远看不到源逻辑或提示词。',
-                comp_win2: '去中心化主权：定价权、撤销权、所有权链上归创作者。',
-                comp_win3: '模型无关：支持任何 LLM 提供商——创作者和买方均不被锁定。',
-                comp_sources_hint: '基于各公司产品页面与公告核验，更新时间 2026年2月。',
+                comp_win1: '双向隐私 — 卖方逻辑和买方数据均受保护，只交付结果',
+                comp_win2: '链上主权 — 定价、撤销、所有权归创作者',
+                comp_win3: 'AI + 人类统一 — 同一市场，模型无关，无锁定',
                 label_financials: '财务', fin_title: '收入模型与预测',
                 rev_streams: '收入来源',
                 rev1_name: '交易手续费', rev1_desc: '每次技能使用 5-15% 佣金',
@@ -2134,7 +2171,7 @@
                 metric2: '目标毛利率 — 纯软件平台模型',
                 metric3: '综合抽成率 — 在创作者平台中具有竞争力',
                 metric4: '目标盈亏平衡路径 — 精益团队，低消耗',
-                label_investment: '融资', invest_title: '种子前轮融资 $50万',
+                label_investment: '融资', invest_title: '种子前轮融资',
                 use_of_funds: '资金用途', fund1: '产品开发', fund2: '团队扩张', fund3: '运营', fund4: '法务与合规',
                 milestones: '里程碑',
                 ms1_time: '3 个月', ms1_text: '<strong style="color: var(--text);">MVP 发布</strong> — 首批技能上线，核心市场运行',
