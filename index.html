@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1280">
     <title>democra.ai — Pitch Deck</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -871,40 +871,7 @@
         }
         .top-bar-lang .lang-toggle-btn:hover { color: var(--primary); opacity: 0.9; }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .solution-layout, .market-layout,
-            .comp-layout, .team-layout, .ask-layout, .traction-layout,
-            .traction-grid, .fin-layout, .fin-metric-row {
-                grid-template-columns: 1fr;
-            }
-            .problem-pipeline { flex-direction: column; align-items: center; gap: 4px; }
-            .pipeline-track { display: none; }
-            .pipeline-chevron { transform: rotate(90deg); margin: 0; width: auto; }
-            .problem-impact-bar { flex-direction: column; }
-            .impact-segment { border-right: none; border-bottom: 1px solid var(--border); }
-            .impact-segment:last-child { border-bottom: none; }
-            .problem-hero-stat { flex-direction: column; gap: 8px; }
-            .arch-flow {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
-                gap: 12px 0;
-            }
-            .arch-user, .arch-studio, .arch-market, .arch-agent,
-            .arch-tee, .arch-chain {
-                grid-column: 1; grid-row: auto;
-            }
-            .arch-endpoint { flex-direction: row; gap: 10px; }
-            #archArrows { display: none; }
-            .mkt-card { flex-direction: column; text-align: center; }
-            .mkt-body { text-align: left; }
-            .web3-foundation { flex-direction: column; gap: 10px; }
-            .web3-foundation-items { flex-direction: column; }
-            .flow-steps { flex-direction: column; gap: 12px; }
-            .flow-step:not(:last-child)::after { display: none; }
-            .cover-founders { flex-direction: column; gap: 12px; }
-            .hires-grid { grid-template-columns: 1fr; }
-        }
+        /* Responsive - disabled: force desktop layout on all devices */
         /* ========== PRINT / PDF ========== */
         @media print {
             @page { size: 1280px 720px; margin: 0; }
